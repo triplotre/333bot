@@ -1,63 +1,78 @@
 import { smsg } from './lib/simple.js'
-import { format } from 'util'
-import { fileURLToPath } from 'url'
-import path, { join } from 'path'
-import { unwatchFile, watchFile, writeFileSync, readFileSync } from 'fs'
+import { writeFileSync, readFileSync, existsSync } from 'fs'
 import chalk from 'chalk'
-import NodeCache from 'node-cache'
-import { getAggregateVotesInPollMessage, toJid } from '@realvare/based'
+import { toJid } from '@realvare/based'
 
-global.db = JSON.parse(readFileSync('./database.json'))
+const dbPath = './database.json'
+if (!existsSync(dbPath)) {
+    writeFileSync(dbPath, JSON.stringify({ users: {}, groups: {}, chats: {}, settings: {} }, null, 2))
+}
+
+global.db = JSON.parse(readFileSync(dbPath))
 
 export async function handler(chatUpdate) {
     this.msgqueues = this.msgqueues || []
     if (!chatUpdate) return
-    this.pushMessage(chatUpdate.messages).catch(console.error)
     let m = chatUpdate.messages[chatUpdate.messages.length - 1]
     if (!m) return
-    if (global.db.data == null) await global.loadDatabase()
     try {
         m = smsg(this, m) || m
         if (!m) return
-        m.exp = 0
-        m.euro = 0
         
-        const jid = m.chat
+        const jid = toJid(m.chat)
         const isGroup = jid.endsWith('@g.us')
 
-        // Database Update
+        global.db.users = global.db.users || {}
+        global.db.groups = global.db.groups || {}
+
         if (!global.db.users[m.sender]) global.db.users[m.sender] = { messages: 0 }
         global.db.users[m.sender].messages++
+        
         if (isGroup) {
             if (!global.db.groups[jid]) global.db.groups[jid] = { messages: 0 }
             global.db.groups[jid].messages++
         }
-        writeFileSync('./database.json', JSON.stringify(global.db, null, 2))
+        
+        writeFileSync(dbPath, JSON.stringify(global.db, null, 2))
 
         if (m.isBaileys) return
-        m.exp += Math.ceil(Math.random() * 10)
 
-        const usedPrefix = (global.prefix.find(p => m.text.startsWith(p)) || '')
-        const noPrefix = m.text.replace(usedPrefix, '').trim()
+        const mText = m.text || ''
+        const _prefix = global.prefix || /^[./!#]/
+        let usedPrefix = ''
+
+        if (_prefix instanceof RegExp) {
+            let match = mText.match(_prefix)
+            if (match) usedPrefix = match[0]
+        } else if (Array.isArray(_prefix)) {
+            usedPrefix = _prefix.find(p => typeof p === 'string' && mText.startsWith(p)) || ''
+        } else if (typeof _prefix === 'string') {
+            if (mText.startsWith(_prefix)) usedPrefix = _prefix
+        }
+
+        const noPrefix = mText.replace(usedPrefix, '').trim()
         const args = noPrefix.split(/ +/)
         const command = args.shift().toLowerCase()
         
-        const groupMetadata = (isGroup ? await (global.groupCache.get(m.chat) || this.groupMetadata(m.chat)) : {}) || {}
+        const groupMetadata = (isGroup ? await (this.groupMetadata(jid).catch(() => ({}))) : {}) || {}
         const participants = (isGroup ? groupMetadata.participants : []) || []
-        const user = (isGroup ? participants.find(u => conn.decodeJid(u.id) === m.sender) : {}) || {} 
-        const bot = (isGroup ? participants.find(u => conn.decodeJid(u.id) === this.user.jid) : {}) || {}
+        const user = (isGroup ? participants.find(u => this.decodeJid(u.id) === m.sender) : {}) || {} 
+        const bot = (isGroup ? participants.find(u => this.decodeJid(u.id) === (this.user?.id ? toJid(this.user.id) : '')) : {}) || {}
         
-        const isRowner = global.owner.map(([number]) => number).map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-        const isOwner = isRowner || global.owner.map(([number]) => number).map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+        const isRowner = global.owner.map(([number]) => toJid(number.replace(/\D/g, '') + '@s.whatsapp.net')).includes(m.sender)
+        const isOwner = isRowner || global.owner.map(([number]) => toJid(number.replace(/\D/g, '') + '@s.whatsapp.net')).includes(m.sender)
         const isAdmin = isOwner || user?.admin || false
         const isBotAdmin = bot?.admin || false
 
+        if (!usedPrefix && isGroup) return
+
         for (let name in global.plugins) {
             let plugin = global.plugins[name]
-            if (!plugin) continue
-            if (plugin.disabled) continue
-            const prefixReg = global.prefix instanceof RegExp ? global.prefix : /^[./!#]/
-            let isAccept = plugin.command instanceof RegExp ? plugin.command.test(command) : Array.isArray(plugin.command) ? plugin.command.includes(command) : plugin.command === command
+            if (!plugin || plugin.disabled) continue
+
+            let isAccept = Array.isArray(plugin.command) ? 
+                plugin.command.includes(command) : 
+                (plugin.command instanceof RegExp ? plugin.command.test(command) : plugin.command === command)
 
             if (isAccept) {
                 m.plugin = name
