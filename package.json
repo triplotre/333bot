@@ -1,0 +1,30 @@
+{
+  "name": "zexinbot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot creato da zero per Zexin",
+  "main": "zexin.js",
+  "type": "module",
+  "author": "Zexin",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "node zexin.js",
+    "qr": "node zexin.js qr",
+    "code": "node zexin.js code"
+  },
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@realvare/based": "latest",
+    "awesome-phonenumber": "^3.4.0",
+    "axios": "^1.12.2",
+    "chalk": "^5.3.0",
+    "cheerio": "^1.0.0-rc.12",
+    "fs": "latest",
+    "lodash": "^4.17.21",
+    "lowdb": "^3.0.0",
+    "moment-timezone": "^0.5.43",
+    "node-cache": "^5.1.2",
+    "node-fetch": "^3.3.0",
+    "pino": "^8.16.1",
+    "yargs": "^17.7.2"
+  }
+}
