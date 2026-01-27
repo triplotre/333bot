@@ -1,16 +1,15 @@
 import { generateWAMessageFromContent, proto } from '@realvare/based'
 
 const handler = async (m, { conn }) => {
-    console.log('--- TEST BUTTONS ---')
 
     const buttons = [
-        { buttonId: '.ping', buttonText: { displayText: '🏓 PING' }, type: 1 },
-        { buttonId: '.funzioni', buttonText: { displayText: '⚙️ FUNZIONI' }, type: 1 }
+        { buttonId: '.ping', buttonText: { displayText: 'sborra' }, type: 1 },
+        { buttonId: '.funzioni', buttonText: { displayText: 'trattieniti' }, type: 1 }
     ]
 
     const buttonMessage = {
-        text: "Ciao! Scegli un'opzione qui sotto:",
-        footer: "Zexin Bot Test",
+        text: "sto per sborrare",
+        footer: "sborrarararar",
         buttons: buttons,
         headerType: 1
     }

@@ -1,5 +1,6 @@
 import { writeFileSync } from 'fs';
 import print from './lib/print.js';
+import { prima as antiPrivato } from './funzioni/owner/antiprivato.js'
 
 export default async function handler(conn, m) {
     try {
@@ -19,6 +20,7 @@ export default async function handler(conn, m) {
         }
         m.msg = m.message[m.mtype];
 
+        // --- DEFINIZIONE TESTO ---
         let text = "";
         if (m.mtype === 'conversation') text = m.message.conversation;
         else if (m.mtype === 'extendedTextMessage') text = m.message.extendedTextMessage.text;
@@ -37,10 +39,18 @@ export default async function handler(conn, m) {
         m.text = text || "";
         m.reply = (text, chatId, options) => conn.sendMessage(chatId || m.chat, { text: text, ...global.newsletter() }, { quoted: m, ...options });
 
+        // --- INIZIALIZZAZIONE DATABASE ---
         global.db.data = global.db.data || { users: {}, groups: {}, chats: {}, settings: {} };
         const users = global.db.data.users;
         const groups = global.db.data.groups;
 
+        // --- DEFINIZIONE ISOWNER (Spostata sopra per usarla con antiprivato) ---
+        const isOwner = global.owner.some(o => o[0] === sender.split('@')[0]);
+
+        // --- ESECUZIONE ANTIPRIVATO (Spostata qui) ---
+        // Adesso isOwner è definito e il database è pronto
+        await antiPrivato(m, { conn, isOwner })
+        
         if (!users[sender]) users[sender] = { messages: 0, warns: {} };
         users[sender].messages++;
         
@@ -57,14 +67,13 @@ export default async function handler(conn, m) {
 
         if (m.key.fromMe) return;
 
+        // --- GESTIONE COMANDI ---
         const prefix = global.prefix instanceof RegExp ? (global.prefix.test(m.text) ? m.text.match(global.prefix)[0] : '.') : (global.prefix || '.');
         if (!m.text.startsWith(prefix)) return;
 
         const args = m.text.slice(prefix.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
         const fullText = args.join(' '); 
-
-        const isOwner = global.owner.some(o => o[0] === sender.split('@')[0]);
         
         const groupMetadata = isGroup ? await conn.groupMetadata(jid, true).catch(() => ({})) : {};
         const participants = isGroup ? (groupMetadata.participants || []) : [];

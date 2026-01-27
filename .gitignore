@@ -142,3 +142,5 @@ vite.config.ts.timestamp-*
 zexin-session/
 database.json
 funzioni/database.json
+.gitignore
+package-lock.json

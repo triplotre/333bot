@@ -9,7 +9,8 @@ import { pathToFileURL } from 'url';
 import chokidar from 'chokidar';
 import handler from "./handler.js";
 import print from "./lib/print.js";
-import { groupUpdate } from './funzioni/permessi.js'
+import { groupUpdate } from './funzioni/admin/permessi.js';
+import { eventsUpdate } from "./funzioni/admin/welcome-addio.js";
 import './config.js';
 
 async function startBot() {
@@ -115,12 +116,14 @@ async function startBot() {
     });
 
     conn.ev.on('group-participants.update', async (update) => {
-        const { id } = update;
-        await conn.groupMetadata(id, true).catch(() => {}); 
-        await groupUpdate(conn, update);
-        await print(update, conn, true);
-    });
-
+    const { id } = update;
+    await conn.groupMetadata(id, true).catch(() => {}); 
+    
+    await eventsUpdate(conn, update);
+    await groupUpdate(conn, update);
+    
+    await print(update, conn, true);
+});
     conn.ev.on('groups.update', async (updates) => {
         for (const update of updates) {
             await groupUpdate(conn, update);
