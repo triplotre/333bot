@@ -146,5 +146,8 @@ package-lock.json
 plugins/test-perm.js
 plugins/test2.js
 plugins/test3.js
+plugins/test-ead.js
+plugins/test-order.js
+plugins/owner-raw.js
 config.js
 media/
