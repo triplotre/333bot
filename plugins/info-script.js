@@ -14,6 +14,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     const packageUrl = `${repoUrl}/releases/latest`
     const channelUrl = global.canale.link
     const githubAvatar = `https://github.com/${userPath}.png`
+    const sito = `https://zexin.vercel.app/`
     
     let stars = '0', forks = '0'
     try {
@@ -80,7 +81,7 @@ const handler = async (m, { conn, usedPrefix }) => {
                     <span class="repo-name">${repoPath}</span>
                     <span class="badge">public</span>
                 </div>
-                <div class="description">Modern WhatsApp Bot system. Optimized with high-performance plugins and a modular glassmorphism interface.</div>
+                <div class="description">Bot WhatsApp modulare, rapido e personalizzabile.</div>
                 <div class="footer">
                     <div class="stat-item"><span class="lang-dot"></span> JavaScript</div>
                     <div class="stat-item">⭐ ${stars}</div>
@@ -107,7 +108,7 @@ const handler = async (m, { conn, usedPrefix }) => {
             cards: [
                 {
                     image: { url: tmpFile },
-                    body: `  `,
+                    body: ``,
                     buttons: [
                         {
                             name: 'cta_url',
@@ -120,6 +121,10 @@ const handler = async (m, { conn, usedPrefix }) => {
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({ display_text: '📢 Canale', url: channelUrl })
+                        },
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({ display_text: '🌐  Sito ufficiale', url: sito })
                         }
                     ]
                 }

@@ -13,12 +13,12 @@ global.prefix = /^[./!#]/
  per far si che funzionino i comandi associati */
 
 global.APIKeys = {
-    gemini: 'AIzaSyBubq2rVXytLCNHS1XfL2KEnVbxFeTowY0',
+    gemini: 'zexin-bot',
     removebg: 'zexin-bot',
-    browserless: '2TDow7lMALC87LE35e274ea10fa93aac4a166e010942ab262',
-    lastfm: '2eb5ad17c8803c188abc8e301309875e',
-    chatgpt: 'f930fa4bc0msh24fdb884d5f857dp19dbf6jsn817ac0159619',
-    openrouter: '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'
+    browserless: 'zexin-bot',
+    lastfm: 'zexin-bot',
+    chatgpt: 'zexin-bot',
+    openrouter: 'zexin-bot'
 }
 
 global.immagini = [

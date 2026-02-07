@@ -1,39 +1,48 @@
 import { writeFileSync } from 'fs';
 
-/**
- * 
- * @param {Object} m 
- * @param {Object} extra 
- */
-
 export async function antilink(m, { conn, isAdmin, isBotAdmin, users }) {
-    if (!m.text || isAdmin || !isBotAdmin) return false;
+    if (isAdmin || !isBotAdmin) return false;
 
-    const linkRegex = /https?:\/\/[^\s]+/i;
+    // Estrae il testo da qualsiasi sorgente (testo, didascalie media, bottoni)
+    const body = m.text || m.msg?.caption || m.msg?.text || (m.mtype === 'templateButtonReplyMessage' && m.msg?.selectedId) || '';
     
-    if (linkRegex.test(m.text)) {
+    if (!body) return false;
+
+    // Regex per link https, http, www e wa.me
+    const linkRegex = /((https?:\/\/|www\.)[^\s]+|wa\.me\/[^\s]+)/i;
+    
+    if (linkRegex.test(body)) {
         const jid = m.chat;
         const sender = m.sender;
 
+        // Elimina immediatamente il messaggio
         await conn.sendMessage(jid, { delete: m.key });
 
+        // Inizializzazione e incremento warn
         if (!users[sender].warns) users[sender].warns = {};
         if (!users[sender].warns[jid]) users[sender].warns[jid] = 0;
 
         users[sender].warns[jid] += 1;
         const count = users[sender].warns[jid];
+        const maxWarns = 5;
 
         await conn.sendMessage(jid, {
-            text: `⚠️ *Link Rilevato!* ⚠️\n\n@${sender.split('@')[0]}, i link non sono ammessi.\n*Warn:* ${count}/3`,
-            mentions: [sender]
-        }, { quoted: m });
+            text: `⚠️ *Link Rilevato!* ⚠️\n\n@${sender.split('@')[0]}, l'invio di link è vietato.\n*Warn:* [ ${count} / ${maxWarns} ]`,
+            mentions: [sender],
+            ...global.newsletter?.()
+        });
 
-        if (count >= 5) {
+        // Rimozione al quinto avvertimento
+        if (count >= maxWarns) {
             await conn.groupParticipantsUpdate(jid, [sender], 'remove');
-            users[sender].warns[jid] = 0;
-            await conn.sendMessage(jid, { text: `🚫 Utente rimosso per limite avvertimenti raggiunto.` });
+            users[sender].warns[jid] = 0; // Reset
+            await conn.sendMessage(jid, { 
+                text: `🚫 @${sender.split('@')[0]} rimosso per aver raggiunto il limite di 5 warn.`,
+                mentions: [sender]
+            });
         }
 
+        // Sincronizzazione database
         writeFileSync('./database.json', JSON.stringify(global.db.data, null, 2));
         
         return true; 

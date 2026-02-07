@@ -28,65 +28,59 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
     }
 
     if (command === 'salva') {
-        let [songQuery, plName] = text.split('|').map(v => v.trim())
-        if (!songQuery) return m.reply(`『 ❌ 』 Uso: ${usedPrefix}salva Canzone | Playlist`)
+        let parts = text.split('|').map(v => v.trim())
+        let songTitle = parts[0]
+        let songAuthor = parts[1]
+        let plName = parts[2]
+
+        if (!songTitle) return m.reply(`『 ❌ 』 Uso: ${usedPrefix}salva Brano | Autore | Playlist`)
         
         if (!pl[m.sender] || Object.keys(pl[m.sender]).length === 0) {
             return m.reply('『 ⚠️ 』 Non hai playlist. Creane una con: .crea nome')
         }
 
-        // Se non specifica la playlist, mostra i bottoni
         if (!plName) {
-            let buttons = Object.keys(pl[m.sender]).map(name => ({
-                name: 'quick_reply',
-                buttonParamsJson: JSON.stringify({
-                    display_text: name,
-                    id: `${usedPrefix}salva ${songQuery} | ${name}`
-                })
-            }))
-            
+            let buttons = Object.keys(pl[m.sender]).map(name => {
+                let count = pl[m.sender][name].length
+                return {
+                    name: 'quick_reply',
+                    buttonParamsJson: JSON.stringify({
+                        display_text: `${name} (${count})`,
+                        id: `${usedPrefix}salva ${songTitle} | ${songAuthor || ''} | ${name}`
+                    })
+                }
+            })
+
+            // Invio pulito senza contextInfo/newsletter per evitare blocchi
             return conn.sendMessage(m.chat, {
-                text: `『 🎵 』 In quale playlist vuoi salvare *${songQuery}*?`,
-                cards: [{
-                    body: 'Seleziona una delle tue playlist qui sotto:',
-                    buttons: buttons
-                }]
+                text: `In quale playlist vuoi salvare *${songTitle}*?`,
+                footer: 'Zexin-Bot Playlist System',
+                buttons: buttons,
+                headerType: 1,
+                viewOnce: true
             }, { quoted: m })
         }
 
         if (!pl[m.sender][plName]) return m.reply(`『 ❌ 』 La playlist *${plName}* non esiste.`)
 
-        // Recupero dati dal database canzoni.json (popolato dal .cur)
-        let songData = songsDb[songQuery.toLowerCase()]
+        let searchKey = songAuthor ? `${songTitle} ${songAuthor}`.toLowerCase() : songTitle.toLowerCase()
+        let songData = songsDb[searchKey] || songsDb[songTitle.toLowerCase()]
         
-        // Se non è nel DB, non possiamo salvarla con i metadati corretti (timeline, cover)
         if (!songData) {
-            return m.reply(`『 ❌ 』 Brano non trovato nel database.\nEsegui prima *.cur* su questo brano per registrarlo con i metadati.`)
+            return m.reply(`『 ❌ 』 Brano non trovato nel database.\nEsegui prima *.cur* su questo brano per registrarlo.`)
         }
 
-        // Inizializza l'array se vuoto per evitare l'errore 'some'
         if (!Array.isArray(pl[m.sender][plName])) {
             pl[m.sender][plName] = []
         }
 
-        // Controllo duplicati
         const exists = pl[m.sender][plName].some(s => s.title.toLowerCase() === songData.title.toLowerCase())
         if (exists) return m.reply(`『 ⚠️ 』 *${songData.title}* è già presente in *${plName}*.`)
 
-        // Aggiunta brano
         pl[m.sender][plName].push(songData)
         fs.writeFileSync(plPath, JSON.stringify(pl, null, 2))
         
-        return conn.sendMessage(m.chat, {
-            text: `『 ✅ 』 *${songData.title}* salvata in *${plName}*!`,
-            cards: [{
-                body: `La playlist "${plName}" ora contiene ${pl[m.sender][plName].length} brani.`,
-                buttons: [{
-                    name: 'quick_reply',
-                    buttonParamsJson: JSON.stringify({ display_text: '📂 Apri Playlist', id: `${usedPrefix}playlist ${plName}` })
-                }]
-            }]
-        }, { quoted: m })
+        return m.reply(`『 ✅ 』 *${songData.title}* salvata in *${plName}*!`)
     }
 }
 
