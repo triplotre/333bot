@@ -11,6 +11,9 @@ import handler from "./handler.js";
 import print from "./lib/print.js";
 import { groupUpdate } from './funzioni/admin/permessi.js';
 import { eventsUpdate } from "./funzioni/admin/welcome-addio.js";
+import { checkConfig } from './lib/configInit.js';
+checkConfig(); 
+
 import './config.js';
 
 async function startBot() {

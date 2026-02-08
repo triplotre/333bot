@@ -49,7 +49,6 @@ const handler = async (m, { conn, usedPrefix }) => {
         const track = res.recenttracks?.track?.[0]
         if (!track) return m.reply('『 ❌ 』 Nessun brano trovato.')
 
-        // Recupero info dettagliate per la durata reale
         const trackInfo = await apiCall('track.getInfo', { 
             artist: track.artist['#text'], 
             track: track.name, 
@@ -60,7 +59,6 @@ const handler = async (m, { conn, usedPrefix }) => {
         const cover = await fetchCover(track.image, `${track.artist['#text']} ${track.name}`)
         const isNowPlaying = track['@attr']?.nowplaying === 'true'
 
-        // Salvataggio nel database globale canzoni.json
         let songsDb = JSON.parse(fs.readFileSync(songsDbPath, 'utf-8'))
         songsDb[track.name.toLowerCase()] = {
             title: track.name,
@@ -71,7 +69,6 @@ const handler = async (m, { conn, usedPrefix }) => {
         }
         fs.writeFileSync(songsDbPath, JSON.stringify(songsDb, null, 2))
 
-        // Calcolo Timeline (estetica 70% progresso per simulare ascolto)
         const progress = isNowPlaying ? 0.7 : 1
         const currentTime = formatTime(duration * progress)
         const totalTime = formatTime(duration)
@@ -125,6 +122,7 @@ const handler = async (m, { conn, usedPrefix }) => {
             cards: [{
                 image: { url: fileName },
                 buttons: [
+                    { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '📥 Scarica Audio', id: `${usedPrefix}play ${track.name} ${track.artist['#text']}` }) },
                     { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '🎧 Salva Brano', id: `${usedPrefix}salva ${track.name} | ${track.artist['#text']}` }) },
                     { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '📂 Playlist', id: `${usedPrefix}playlist` }) }
                 ]
