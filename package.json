@@ -1,15 +1,15 @@
 {
-  "name": "zexinbot",
+  "name": "declare",
   "version": "1.2.0",
   "description": "WhatsApp Bot creato da zero per Zexin",
-  "main": "zexin.js",
+  "main": "declare.js",
   "type": "module",
   "author": "Zexin",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "node zexin.js",
-    "qr": "node zexin.js qr",
-    "code": "node zexin.js code"
+    "start": "node declare.js",
+    "qr": "node declare.js qr",
+    "code": "node declare.js code"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",

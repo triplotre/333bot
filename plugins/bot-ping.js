@@ -23,7 +23,7 @@ const handler = async (m, { conn }) => {
         contextInfo: {
             ...global.newsletter().contextInfo,
             externalAdReply: {
-                title: `zexin-bot v${versione}`,
+                title: `declare v${versione}`,
                 body: `${versione} • ${lattenza}ms`,
                 renderLargerThumbnail: false,
                 thumbnailUrl: foto,

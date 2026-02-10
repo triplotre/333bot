@@ -39,7 +39,7 @@ async function startBot() {
         logger: pino({ level: 'silent' }),
         printQRInTerminal: false,
         auth: state,
-        browser: ['Zexin-Bot', 'Safari', '3.0']
+        browser: ['declare', 'Safari', '3.0']
     });
 
     conn.ev.on('call', async (call) => {

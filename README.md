@@ -32,10 +32,10 @@ export GYP_DEFINES="android_ndk_path=''"
 cd ~
 ```
 ```bash  
-git clone https://github.com/devz3xin/zexin-bot/
+git clone https://github.com/devz3xin/declare/
 ```
 ```bash  
-cd zexin-bot
+cd declare
 ```
 ```bash  
 npm install --global yarn
@@ -58,10 +58,10 @@ sudo apt update && apt upgrade -y
 sudo apt install git nodejs ffmpeg imagemagick python pip3
 ```
 ```bash  
-git clone https://github.com/devz3xin/zexin-bot
+git clone https://github.com/devz3xin/declare
 ```
 ```bash  
-cd zexin-bot
+cd declare
 ```
 ```bash  
 npm i && npm start
@@ -74,8 +74,8 @@ npm i && npm start
 ## 👥 Contributori
 
 <p align="center">
-  <a href="https://github.com/devz3xin/zexin-bot/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=devz3xin/zexin-bot"/>
+  <a href="https://github.com/devz3xin/declare/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=devz3xin/declare"/>
   </a>
 </p>
 

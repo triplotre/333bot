@@ -162,7 +162,6 @@ export default async function handler(conn, m) {
             groups[jid].messages++;
         }
 
-        // --- CALCOLO PERMESSI PER ANTILINK E PLUGIN ---
         const groupMetadata = isGroup ? await conn.groupMetadata(jid).catch(() => ({})) : {};
         const participants = isGroup ? (groupMetadata.participants || []) : [];
         
@@ -196,7 +195,6 @@ export default async function handler(conn, m) {
         const isAdmin = (user && user.admin !== null && user.admin !== undefined) || isOwner;
         const isBotAdmin = (bot && bot.admin !== null && bot.admin !== undefined) || false;
 
-        // --- CONTROLLO ANTILINK ---
         if (isGroup && groups[jid]?.antilink) {
             const isEliminato = await antilink(m, { 
                 conn, 
@@ -220,8 +218,6 @@ export default async function handler(conn, m) {
             (global.prefix.test(m.text) ? m.text.match(global.prefix)[0] : '.') : 
             (global.prefix || '.');
             
-        if (!m.text.startsWith(prefix)) return;
-        await conn.sendPresenceUpdate('composing', m.chat);
 
         const args = m.text.slice(prefix.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
