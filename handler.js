@@ -4,44 +4,121 @@ import print from './lib/print.js'
 import { prima as antiPrivato } from './funzioni/owner/antiprivato.js'
 import rispondiGemini from './funzioni/owner/rispondi.js'
 import { antilink } from './funzioni/admin/antilink.js'
+import store from './lib/store.js'
+import fs from 'fs'
+import path from 'path'
+
+function initDatabase() {
+    const dbPath = path.join(process.cwd(), 'database.json')
+    
+    if (!fs.existsSync(dbPath)) {
+        const initialData = {
+            users: {},
+            groups: {},
+            chats: {},
+            settings: {}
+        }
+        
+        fs.writeFileSync(dbPath, JSON.stringify(initialData, null, 2), 'utf-8')
+        console.log(chalk.green('[Database] ✓ File database.json creato con successo!'))
+    }
+    
+    try {
+        const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'))
+        global.db = global.db || {}
+        global.db.data = data
+        
+        global.db.data.users = global.db.data.users || {}
+        global.db.data.groups = global.db.data.groups || {}
+        global.db.data.chats = global.db.data.chats || {}
+        global.db.data.settings = global.db.data.settings || {}
+        
+    } catch (e) {
+        console.error(chalk.red('[Database Error]:'), e.message)
+        global.db = { data: { users: {}, groups: {}, chats: {}, settings: {} } }
+    }
+}
+
+function saveDatabase() {
+    const dbPath = path.join(process.cwd(), 'database.json')
+    try {
+        fs.writeFileSync(dbPath, JSON.stringify(global.db.data, null, 2), 'utf-8')
+    } catch (e) {
+        console.error(chalk.red('[Database Save Error]:'), e.message)
+    }
+}
+
+initDatabase()
+
+setInterval(() => {
+    if (global.db?.data) {
+        saveDatabase()
+    }
+}, 5000)
 
 export default async function handler(conn, chatUpdate) {
     if (!chatUpdate) return
     let m = chatUpdate
     
+    if (!conn.loadMessage) {
+        conn.loadMessage = (jid, id) => store.loadMessage(jid, id)
+    }
+    
     try {
         m = smsg(conn, m)
         if (!m || !m.message) return
-
-        // --- FORZA IL RICONOSCIMENTO DEL QUOTED ---
-        const msg = m.message
-        const type = Object.keys(msg)[0]
-        const quoted = msg[type]?.contextInfo?.quotedMessage
-        
-        if (quoted && !m.quoted) {
-            const quotedId = msg[type].contextInfo.stanzaId
-            const quotedSender = msg[type].contextInfo.participant || msg[type].contextInfo.remoteJid
-            
-            m.quoted = {
-                id: quotedId,
-                sender: conn.decodeJid(quotedSender),
-                message: quoted,
-                text: quoted.conversation || quoted.extendedTextMessage?.text || quoted.imageMessage?.caption || ''
-            }
-        }
 
         let txt = m.message.conversation || 
                   m.message.extendedTextMessage?.text || 
                   m.message.imageMessage?.caption || 
                   m.message.videoMessage?.caption || 
+                  m.message.buttonsResponseMessage?.selectedButtonId || 
+                  m.message.listResponseMessage?.singleSelectReply?.selectedRowId || 
+                  m.message.templateButtonReplyMessage?.selectedId || 
+                  m.message.interactiveResponseMessage?.body?.text ||
                   m.msg?.text || 
                   m.msg?.caption || 
                   m.text || ''
         
         m.text = txt.trim()
 
+        const msg = m.message
+        const type = Object.keys(msg)[0]
+        const contextInfo = msg[type]?.contextInfo
+
+        if (contextInfo?.quotedMessage) {
+            const quotedMsg = {
+                key: {
+                    remoteJid: m.chat,
+                    fromMe: contextInfo.participant === conn.decodeJid(conn.user.id),
+                    id: contextInfo.stanzaId,
+                    participant: contextInfo.participant || m.chat
+                },
+                message: contextInfo.quotedMessage,
+                messageTimestamp: contextInfo.quotedStanzaID || Date.now()
+            }
+            
+            let quoted = smsg(conn, quotedMsg)
+            
+            const qType = Object.keys(contextInfo.quotedMessage)[0]
+            if (contextInfo.quotedMessage[qType]?.mimetype && !quoted.mimetype) {
+                quoted.mimetype = contextInfo.quotedMessage[qType].mimetype
+            }
+            
+            if (!quoted.mediaMessage && contextInfo.quotedMessage[qType]?.url) {
+                const mediaTypes = ['imageMessage', 'videoMessage', 'audioMessage', 'stickerMessage', 'documentMessage']
+                if (mediaTypes.includes(qType)) {
+                    quoted.mediaMessage = contextInfo.quotedMessage
+                    quoted.mediaType = qType
+                }
+            }
+            
+            m.quoted = quoted
+        }
+
         const jid = m.chat
         const isGroup = jid.endsWith('@g.us')
+        const isChannel = jid.endsWith('@newsletter')
         const botId = conn.decodeJid(conn.user.id)
         
         const sender = m.sender
@@ -75,14 +152,56 @@ export default async function handler(conn, chatUpdate) {
         m.userRole = isOwner ? 'OWNER' : (isAdmin ? 'ADMIN' : 'MEMBRO')
         m.botRole = isBotAdmin ? 'ADMIN' : 'MEMBRO'
 
-        global.db.data = global.db.data || { users: {}, groups: {}, settings: {} }
-        if (isGroup && !global.db.data.groups[jid]) global.db.data.groups[jid] = { antilink: true }
-
-        if (isGroup && global.db.data.groups[jid]?.antilink) {
-            if (await antilink(m, { conn, isAdmin, isBotAdmin })) return
+        if (!global.db?.data) {
+            initDatabase()
         }
 
-        // Adesso print.js vedrà m.quoted popolato
+        if (sender) {
+            if (!global.db.data.users[sender]) {
+                global.db.data.users[sender] = {
+                    messages: 0,
+                    warns: {}
+                }
+            }
+            global.db.data.users[sender].messages = (global.db.data.users[sender].messages || 0) + 1
+        }
+
+        if (isGroup) {
+            // Chat di gruppo
+            if (!global.db.data.groups[jid]) {
+                global.db.data.groups[jid] = {
+                    messages: 0,
+                    rileva: false,
+                    welcome: true,
+                    antilink: true
+                }
+            }
+            global.db.data.groups[jid].messages = (global.db.data.groups[jid].messages || 0) + 1
+            
+        } else if (isChannel) {
+            // Canale (newsletter)
+            if (!global.db.data.chats[jid]) {
+                global.db.data.chats[jid] = {
+                    messages: 0,
+                    type: 'channel'
+                }
+            }
+            global.db.data.chats[jid].messages = (global.db.data.chats[jid].messages || 0) + 1
+            
+        } else {
+            if (!global.db.data.chats[jid]) {
+                global.db.data.chats[jid] = {
+                    messages: 0,
+                    type: 'private'
+                }
+            }
+            global.db.data.chats[jid].messages = (global.db.data.chats[jid].messages || 0) + 1
+        }
+
+        if (isGroup && global.db.data.groups[jid]?.antilink) {
+            if (await antilink(m, { conn, isAdmin, isBotAdmin, users: global.db.data.users })) return
+        }
+
         await print(m, conn)
         
         if (m.key.fromMe) return
@@ -164,3 +283,5 @@ global.dfail = async (type, m, conn) => {
         }, { quoted: m })
     }
 }
+
+export { initDatabase, saveDatabase }
