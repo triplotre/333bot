@@ -74,10 +74,15 @@ export default async function handler(conn, chatUpdate) {
 
         const msgType = Object.keys(m.message)[0]
         const msgContent = m.message[msgType]
+        
         let txt = m.message.conversation || 
                   m.message.extendedTextMessage?.text || 
                   m.message.imageMessage?.caption || 
                   m.message.videoMessage?.caption || 
+                  m.message.buttonsResponseMessage?.selectedButtonId || 
+                  m.message.listResponseMessage?.singleSelectReply?.selectedRowId || 
+                  m.message.templateButtonReplyMessage?.selectedId || 
+                  m.message.interactiveResponseMessage?.body?.text || 
                   msgContent?.text || 
                   msgContent?.caption || 
                   m.text || ''

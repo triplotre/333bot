@@ -150,7 +150,7 @@ const handler = async (m, { conn, usedPrefix }) => {
         ]
 
         await conn.sendMessage(m.chat, {
-            text: `『 🎵 』 *NOW PLAYING*\n\`${track.name} - ${track.artist['#text']}\``,
+            text: `『 🎵 』 \`${track.name} - ${track.artist['#text']}\``,
             cards: [{
                 image: { url: fileName },
                 buttons: buttons
