@@ -58,7 +58,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
                                 ...global.newsletter().contextInfo,
                                 mentionedJid: [m.sender],
                                 isForwarded: true,
-                                stanzaId: 'ZexinSystem',
+                                stanzaId: '333System',
                                 participant: '0@s.whatsapp.net'
                             }
                         }

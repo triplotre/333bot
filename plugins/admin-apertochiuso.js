@@ -39,12 +39,12 @@ async function sendStyled(conn, m, title, caption, buttons = []) {
                     contextInfo: {
                         mentionedJid: [m.sender],
                         isForwarded: true,    
-                        stanzaId: 'ZexinSystem',
+                        stanzaId: '333System',
                         participant: '0@s.whatsapp.net',
                         quotedMessage: {
                             contactMessage: {
                                 displayName: `⋆. 333 𝜗𝜚˚⋆`,
-                                vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;Zexin;;;\nFN:Zexin\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
+                                vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;333;;;\nFN:333\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
                             }
                         }
                     }

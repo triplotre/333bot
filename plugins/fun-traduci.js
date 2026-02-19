@@ -78,7 +78,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
                 message: {
                     interactiveMessage: {
                         body: { text: caption },
-                        footer: { text: "zexin bot • translator" },
+                        footer: { text: "333 bot • translator" },
                         nativeFlowMessage: { buttons: buttons },
                         contextInfo: {
                             ...global.newsletter().contextInfo,

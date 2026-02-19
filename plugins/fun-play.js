@@ -63,7 +63,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
                 await conn.sendMessage(m.chat, { 
                     video: data, 
                     mimetype: 'video/mp4', 
-                    caption: '> Zexin System' 
+                    caption: '> 333 System' 
                 }, { quoted: m })
             }
             unlinkSync(finalPath)

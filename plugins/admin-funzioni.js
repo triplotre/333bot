@@ -43,7 +43,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
             title: `『 🛡️ 』 *\`Impostazioni Admin\`*`,
             body: adminBody,
             buttons: [
-                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Dashboard', url: 'https://zexin.vercel.app/' }) }
+                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Dashboard', url: 'https://333.vercel.app/' }) }
             ]
         })
 

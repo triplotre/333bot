@@ -12,7 +12,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
   
   Specifica lingua e testo o rispondi a un messaggio.
   
-  *Esempio:* \`${usedPrefix + command} it ciao zexin\`
+  *Esempio:* \`${usedPrefix + command} it ciao 333\`
   *Lingue comuni:* \`it, en, es, fr, ja, de\`
 `.trim()
         return m.reply(lingue)

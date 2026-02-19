@@ -1,10 +1,10 @@
 {
   "name": "33bot",
   "version": "1.4.0",
-  "description": "WhatsApp Bot creato da zero per Zexin",
+  "description": "WhatsApp Bot creato da zero per 333",
   "main": "333.js",
   "type": "module",
-  "author": "Zexin",
+  "author": "333",
   "license": "Apache-2.0",
   "scripts": {
     "start": "node 333.js",

@@ -38,7 +38,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
 
     // Gestione Argomenti (Puntata)
     let bet = 0
-    if (!args[0] || args[0] === 'help') return m.reply(`🎰 *CASINO ZEXIN*\n\nUso: *${usedPrefix}slot [cifra]*\nEsempio: *${usedPrefix}slot 100* o *${usedPrefix}slot all*`)
+    if (!args[0] || args[0] === 'help') return m.reply(`🎰 *CASINO 333*\n\nUso: *${usedPrefix}slot [cifra]*\nEsempio: *${usedPrefix}slot 100* o *${usedPrefix}slot all*`)
     
     if (args[0] === 'all') {
         bet = userMoney

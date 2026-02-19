@@ -49,21 +49,18 @@ const handler = async (m, { conn, usedPrefix }) => {
     livelliDb[jid].lvl = livelliDb[jid].lvl || 0
 
     const now = Date.now()
-    const cooldown = 86400000 // 24 ore
-    const resetTime = 172800000 // 48 ore
+    const cooldown = 86400000 
+    const resetTime = 172800000 
 
     const lastClaim = walletDb[jid].lastClaim
     const timePassed = now - lastClaim
 
-    // Check Cooldown (Se non è passato abbastanza tempo)
     if (timePassed < cooldown) {
         return m.reply(`⏳ *TORNA PIÙ TARDI*\nHai già riscosso oggi.\nAttendi: *${formatTime(cooldown - timePassed)}*`)
     }
 
-    // Gestione Streak
     let currentStreak = walletDb[jid].streak
     
-    // Se sono passate più di 48h, resetta a 1, altrimenti incrementa
     if (timePassed > resetTime && lastClaim !== 0) {
         currentStreak = 1
         m.reply('⚠️ *STREAK PERSA!* Non hai riscosso ieri. Ricominci da 1.')
@@ -71,12 +68,9 @@ const handler = async (m, { conn, usedPrefix }) => {
         currentStreak += 1
     }
 
-    // Calcola l'indice del premio (0-6)
-    // Se superi il giorno 7, ricomincia il ciclo mantenendo lo streak alto
     const rewardIndex = (currentStreak - 1) % 7 
     const todayReward = rewards[rewardIndex]
 
-    // Assegna Premio
     walletDb[jid].money += todayReward.money
     walletDb[jid].lastClaim = now
     walletDb[jid].streak = currentStreak
@@ -85,10 +79,8 @@ const handler = async (m, { conn, usedPrefix }) => {
     saveDb(walletPath, walletDb)
     saveDb(livelliPath, livelliDb)
 
-    // --- GENERAZIONE GRAFICA GLASSMORPHISM ---
     await conn.sendPresenceUpdate('composing', m.chat)
 
-    // Genera l'HTML per le carte dei giorni
     const cardsHtml = rewards.map((r, i) => {
         let stateClass = ''
         let checkMark = ''
@@ -97,9 +89,9 @@ const handler = async (m, { conn, usedPrefix }) => {
             stateClass = 'claimed' // Passato
             checkMark = '<div class="check">✔</div>'
         } else if (i === rewardIndex) {
-            stateClass = 'active' // Oggi
+            stateClass = 'active' 
         } else {
-            stateClass = 'locked' // Futuro
+            stateClass = 'locked' 
         }
 
         return `

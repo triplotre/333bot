@@ -29,8 +29,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     if (!fs.existsSync('./media')) fs.mkdirSync('./media')
     if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true })
     if (!fs.existsSync(lastfmPath)) fs.writeFileSync(lastfmPath, JSON.stringify({}))
-   
-
+    
     const device = getDevice(m)
     const jid = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
     const number = jid.split('@')[0]
@@ -44,6 +43,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     const userData = usersDb[jid] || {}
     let userMsgs = userData.messages || 0
     let warnsCount = userData.warns ? Object.keys(userData.warns).length : 0
+    let igUsername = userData.ig || null
     
     const allUsers = Object.entries(usersDb)
         .filter(([id, data]) => (id.endsWith('@s.whatsapp.net') || id.endsWith('@lid')) && (data.messages > 0))
@@ -52,7 +52,8 @@ const handler = async (m, { conn, usedPrefix }) => {
     const rankIndex = allUsers.findIndex(([id]) => id === jid)
     const globalRank = rankIndex !== -1 ? rankIndex + 1 : 'N/A'
 
-    const captionProfilo = `╭┈  『 👤 』 \`${nomeUtente}\`\n┆  『 💬 』 \`statistiche\`\n┆  ╰➤  \`messaggi\` ─ *${userMsgs}*\n┆  ╰➤  \`warns\` ─ *${warnsCount}*\n┆  ╰➤  \`rank\` ─ *#${globalRank}*\n╰┈➤ 『 📦 』 \`333 system\``
+    const igText = igUsername ? `\n┆  ╰➤  \`instagram\` ─ *instagram.com/${igUsername}*` : ''
+    const captionProfilo = `╭┈  『 👤 』 \`${nomeUtente}\`\n┆  『 💬 』 \`statistiche\`\n┆  ╰➤  \`messaggi\` ─ *${userMsgs}*\n┆  ╰➤  \`warns\` ─ *${warnsCount}*\n┆  ╰➤  \`rank\` ─ *#${globalRank}*${igText}\n╰┈➤ 『 📦 』 \`333 system\``
 
     let pfp
     try {
@@ -62,6 +63,26 @@ const handler = async (m, { conn, usedPrefix }) => {
     }
 
     await conn.sendPresenceUpdate('composing', m.chat)
+
+    let gridHtml = ''
+    if (igUsername) {
+        gridHtml = `
+            <div class="grid-ig">
+                <div class="stat-card span-2"><div class="stat-label">Messaggi</div><div class="stat-value">${userMsgs}</div></div>
+                <div class="stat-card span-1"><div class="stat-label">Warns</div><div class="stat-value">${warnsCount}</div></div>
+                <div class="stat-card span-1"><div class="stat-label">Rank</div><div class="stat-value">#${globalRank}</div></div>
+                <div class="stat-card span-2"><div class="stat-label">Instagram</div><div class="stat-value ig-text">@${igUsername}</div></div>
+                <div class="stat-card span-2"><div class="stat-label">Device</div><div class="stat-value">${device}</div></div>
+            </div>`
+    } else {
+        gridHtml = `
+            <div class="grid-no-ig">
+                <div class="stat-card"><div class="stat-label">Messaggi</div><div class="stat-value">${userMsgs}</div></div>
+                <div class="stat-card"><div class="stat-label">Warns</div><div class="stat-value">${warnsCount}</div></div>
+                <div class="stat-card"><div class="stat-label">Rank</div><div class="stat-value">#${globalRank}</div></div>
+                <div class="stat-card"><div class="stat-label">Device</div><div class="stat-value">${device}</div></div>
+            </div>`
+    }
 
     const htmlProfilo = `<html><head><style>
         @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;900&display=swap');
@@ -73,10 +94,22 @@ const handler = async (m, { conn, usedPrefix }) => {
         .name { font-size: 65px; font-weight: 900; margin-bottom: 8px; color: #fff; text-transform: uppercase; letter-spacing: -2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 550px; }
         .role-tag { display: inline-block; background: rgba(0,212,255,0.2); padding: 8px 22px; border-radius: 18px; font-size: 22px; font-weight: 800; margin-bottom: 25px; color: #00d4ff; text-transform: uppercase; letter-spacing: 2px; width: fit-content; }
         .number { font-size: 28px; color: rgba(255,255,255,0.6); margin-bottom: 40px; font-weight: 700; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .stat-card { background: rgba(255,255,255,0.08); padding: 22px 30px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); }
+        
+        /* Stili Base per le Card */
+        .stat-card { background: rgba(255,255,255,0.08); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; justify-content: center; overflow: hidden; padding: 22px 30px; }
         .stat-label { font-size: 14px; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 2px; margin-bottom: 6px; }
-        .stat-value { font-size: 32px; font-weight: 900; color: #fff; }
+        .stat-value { font-size: 32px; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* Griglia Default (Senza IG) */
+        .grid-no-ig { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        
+        /* Griglia IG Attivo */
+        .grid-ig { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .grid-ig .span-2 { grid-column: span 2; }
+        .grid-ig .span-1 { grid-column: span 1; padding: 22px 15px; align-items: center; text-align: center; }
+        .grid-ig .span-1 .stat-label { font-size: 11px; letter-spacing: 1px; }
+        .grid-ig .span-1 .stat-value { font-size: 26px; }
+        .ig-text { font-size: 24px; }
     </style></head><body>
         <div class="bg"></div>
         <div class="container">
@@ -85,12 +118,7 @@ const handler = async (m, { conn, usedPrefix }) => {
                 <div class="name">${nomeUtente}</div>
                 <div class="role-tag">${role}</div>
                 <div class="number">${formattedNumber}</div>
-                <div class="grid">
-                    <div class="stat-card"><div class="stat-label">Messaggi</div><div class="stat-value">${userMsgs}</div></div>
-                    <div class="stat-card"><div class="stat-label">Warns</div><div class="stat-value">${warnsCount}</div></div>
-                    <div class="stat-card"><div class="stat-label">Rank</div><div class="stat-value">#${globalRank}</div></div>
-                    <div class="stat-card"><div class="stat-label">Device</div><div class="stat-value">${device}</div></div>
-                </div>
+                ${gridHtml}
             </div>
         </div>
     </body></html>`
@@ -121,7 +149,20 @@ const handler = async (m, { conn, usedPrefix }) => {
                 image: { url: fileProfilo },
                 body: captionProfilo,
                 buttons: [
-                    { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '📊 Top Messaggi', id: `${usedPrefix}topmessaggi` }) }
+                    { 
+                        name: 'quick_reply', 
+                        buttonParamsJson: JSON.stringify({ 
+                            display_text: '📊 Top Messaggi', 
+                            id: `${usedPrefix}topmessaggi` 
+                        }) 
+                    },
+                    { 
+                        name: 'quick_reply', 
+                        buttonParamsJson: JSON.stringify({ 
+                            display_text: igUsername ? '🗑️ Rimuovi Instagram' : '🌐 Imposta Instagram', 
+                            id: igUsername ? `${usedPrefix}delig` : `${usedPrefix}setig` 
+                        }) 
+                    }
                 ]
             })
 

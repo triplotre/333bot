@@ -39,7 +39,7 @@ const handler = async (m, { conn }) => {
 
     const systemMessage = { 
         role: 'system', 
-        content: 'Sei 333, un assistente avanzato, audace e diretto. Creato da Zexin per essere superiore. PARLA SEMPRE E SOLO IN LINGUA ITALIANA. Sii deciso, conciso e non usare mai l\'inglese.' 
+        content: 'Sei 333, un assistente avanzato, audace e diretto. Creato da 333 per essere superiore. PARLA SEMPRE E SOLO IN LINGUA ITALIANA. Sii deciso, conciso e non usare mai l\'inglese.' 
     }
 
     const messages = [
@@ -84,7 +84,7 @@ const handler = async (m, { conn }) => {
     }
 }
 
-handler.customPrefix = /bot|zexin/i
+handler.customPrefix = /bot|333/i
 handler.command = new RegExp
 
 export default handler
