@@ -49,9 +49,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
             const htmlJob = `<html><head><style>
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
                 body { margin:0; padding:0; width:1000px; height:600px; display:flex; align-items:center; justify-content:center; background:#0f0f0f; font-family:'Inter', sans-serif; }
-                .card { width:850px; height:450px; background:#1a1a1a; border-radius:30px; border: 2px solid #333; display:flex; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
-                .sidebar { width:250px; background:#222; display:flex; flex-direction:column; align-items:center; justify-content:center; border-right:2px solid #333; }
-                .avatar { width:120px; height:120px; background:#333; border-radius:50%; margin-bottom:20px; border:4px solid #444; }
+                .card { width:850px; height:450px; background:#1a1a1a; border-radius:30px; border: 2px solid #zyklon; display:flex; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
+                .sidebar { width:250px; background:#222; display:flex; flex-direction:column; align-items:center; justify-content:center; border-right:2px solid #zyklon; }
+                .avatar { width:120px; height:120px; background:#zyklon; border-radius:50%; margin-bottom:20px; border:4px solid #444; }
                 .content { flex:1; padding:50px; display:flex; flex-direction:column; justify-content:center; }
                 .title { color:#666; text-transform:uppercase; letter-spacing:3px; font-weight:700; font-size:14px; }
                 .name { color:#fff; font-size:50px; font-weight:900; margin:10px 0; }
@@ -59,7 +59,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
                 .stat-box { display:flex; flex-direction:column; }
                 .stat-label { color:#555; font-size:12px; font-weight:700; text-transform:uppercase; }
                 .stat-value { color:#eee; font-size:24px; font-weight:700; }
-                .job-tag { position:absolute; top:40px; right:40px; padding:10px 20px; background:#333; color:#aaa; border-radius:10px; font-size:12px; font-weight:700; }
+                .job-tag { position:absolute; top:40px; right:40px; padding:10px 20px; background:#zyklon; color:#aaa; border-radius:10px; font-size:12px; font-weight:700; }
             </style></head><body>
                 <div class="card" style="position:relative;">
                     <div class="job-tag">CENTRO IMPIEGO</div>
@@ -143,7 +143,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         const htmlWork = `<html><head><style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
             body { margin:0; padding:0; width:1000px; height:600px; display:flex; align-items:center; justify-content:center; background:#000; font-family:'Inter', sans-serif; }
-            .work-bg { width:900px; height:500px; background:linear-gradient(45deg, #111, #1a1a1a); border-radius:20px; position:relative; overflow:hidden; border:1px solid #333; }
+            .work-bg { width:900px; height:500px; background:linear-gradient(45deg, #111, #1a1a1a); border-radius:20px; position:relative; overflow:hidden; border:1px solid #zyklon; }
             .accent { position:absolute; top:0; left:0; width:10px; height:100%; background:${lavoroAttuale.colore}; }
             .work-info { padding:80px; }
             .job-name { color:${lavoroAttuale.colore}; font-size:24px; text-transform:uppercase; letter-spacing:5px; }

@@ -116,7 +116,7 @@ const handler = async (m, { conn, usedPrefix }) => {
         .bg-glow { position:absolute; width:100%; height:100%; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); z-index:-1; }
         .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.6; }
         .orb-1 { width:400px; height:400px; background:#ff00cc; top:-100px; left:-100px; }
-        .orb-2 { width:500px; height:500px; background:#3333ff; bottom:-100px; right:-100px; }
+        .orb-2 { width:500px; height:500px; background:#zyklon3ff; bottom:-100px; right:-100px; }
 
         .container {
             width: 1100px; height: 500px;

@@ -19,7 +19,7 @@ async function startBot() {
     
     await import(`./config.js?update=${Date.now()}`);
 
-    const { state, saveCreds } = await useMultiFileAuthState(`./${global.authFile || '333-bot'}`);
+    const { state, saveCreds } = await useMultiFileAuthState(`./${global.authFile || 'zyk-bot'}`);
     const { version } = await fetchLatestBaileysVersion();
 
     const printHeader = () => {
@@ -35,7 +35,7 @@ async function startBot() {
   ▀▀▀▀▀     ▀▀▀▀▀     ▀▀▀▀▀    ▀▀▀▀▀▀▀     ▀▀▀▀       ▀▀▀▀  
                                                             
                                                             `));
-        console.log(chalk.cyan(`\n[ AVVIO ] 🌸 Benvenuto in 333-bot! Avvio in corso...`));
+        console.log(chalk.cyan(`\n[ AVVIO ] 🌸 Benvenuto in zyk-bot! Avvio in corso...`));
     };
 
     printHeader();
@@ -59,7 +59,7 @@ async function startBot() {
         connectTimeoutMs: 60000,
         defaultQueryTimeoutMs: 0,
         keepAliveIntervalMs: 10000,
-        browser: ['333-bot', 'Safari', '3.0']
+        browser: ['zyk-bot', 'Safari', '3.0']
     });
 
     conn.ev.on('call', async (call) => {
@@ -173,7 +173,7 @@ async function startBot() {
         }
         if (connection === 'open') {
             printHeader();
-            console.log(chalk.green.bold('\n[ SUCCESS ] ') + chalk.white('333-botbot è ora online 🌸\n'));
+            console.log(chalk.green.bold('\n[ SUCCESS ] ') + chalk.white('zyk-botbot è ora online 🌸\n'));
         }
         if (connection === 'close') {
             const reason = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.code;

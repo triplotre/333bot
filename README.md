@@ -1,5 +1,5 @@
 
-# 🤖 333 bot .✦ ݁˖
+# 🤖 zyklon bot .✦ ݁˖
 
 ⤷ ゛Bot whatsapp basato su [@realvare/based](https://npmjs.com/projects/@realvare/based). Base interamente fatta da zero, rapido e facilmente configurabile! Funziona sia su WhatsApp normale, WhatsApp Business (mod incluse) ⋆˚꩜｡
 
@@ -38,10 +38,10 @@ export GYP_DEFINES="android_ndk_path=''"
 cd ~
 ```
 ```bash  
-git clone https://github.com/triplotre/333/
+git clone https://github.com/realzyklon/zyklon/
 ```
 ```bash  
-cd 333
+cd zyklon
 ```
 ```bash  
 npm install --global yarn
@@ -64,24 +64,24 @@ sudo apt update && apt upgrade -y
 sudo apt install git nodejs ffmpeg imagemagick python pip3
 ```
 ```bash  
-git clone https://github.com/triplotre/333
+git clone https://github.com/realzyklon/zyklon
 ```
 ```bash  
-cd 333
+cd zyklon
 ```
 ```bash  
 npm i && npm start
 ```
 ## ❤️ Crediti
 
-- [@triplotre](https://www.github.com/triplotre) - creatore della base e dei comandi del bot
+- [@realzyklon](https://www.github.com/realzyklon) - creatore della base e dei comandi del bot
 - [@realvare](https://github.com/realvare) - fork di baileys (based)
 
 ## 👥 Contributori
 
 <p align="center">
-  <a href="https://github.com/triplotre/333/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=triplotre/333"/>
+  <a href="https://github.com/realzyklon/zyklon/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=realzyklon/zyklon"/>
   </a>
 </p>
 

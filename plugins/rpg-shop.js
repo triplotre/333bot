@@ -26,7 +26,7 @@ const generateCard = () => {
         tier: isPremium ? 'BLACK' : 'STANDARD',
         number: number.match(/.{1,4}/g).join(' '),
         cashback: isPremium ? 0.05 : 0.01,
-        color: isPremium ? 'linear-gradient(135deg, #0f0f0f 0%, #333 100%)' : 'linear-gradient(135deg, #002366 0%, #0056b3 100%)'
+        color: isPremium ? 'linear-gradient(135deg, #0f0f0f 0%, #zyklon 100%)' : 'linear-gradient(135deg, #002366 0%, #0056b3 100%)'
     }
 }
 
@@ -66,12 +66,12 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
                             ...(global.newsletter?.().contextInfo || {}),
                             mentionedJid: [m.sender],
                             isForwarded: true,    
-                            stanzaId: '333botSystem',
+                            stanzaId: 'zyklonbotSystem',
                             participant: '0@s.whatsapp.net',
                             quotedMessage: {
                                 contactMessage: {
-                                    displayName: `⋆. 333bot 𝜗𝜚˚⋆`,
-                                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;333bot;;;\nFN:333bot\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
+                                    displayName: `⋆. zyklonbot 𝜗𝜚˚⋆`,
+                                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;zyklonbot;;;\nFN:zyklonbot\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
                                 }
                             }
                         }

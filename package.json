@@ -1,15 +1,15 @@
 {
   "name": "33bot",
   "version": "1.4.0",
-  "description": "WhatsApp Bot creato da zero per 333",
-  "main": "333.js",
+  "description": "WhatsApp Bot creato da zero per zyklon",
+  "main": "zyklon.js",
   "type": "module",
-  "author": "333",
+  "author": "zyklon",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "node 333.js",
-    "qr": "node 333.js qr",
-    "code": "node 333.js code"
+    "start": "node zyklon.js",
+    "qr": "node zyklon.js qr",
+    "code": "node zyklon.js code"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",

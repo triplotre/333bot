@@ -38,7 +38,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
 
     // Gestione Argomenti (Puntata)
     let bet = 0
-    if (!args[0] || args[0] === 'help') return m.reply(`🎰 *CASINO 333*\n\nUso: *${usedPrefix}slot [cifra]*\nEsempio: *${usedPrefix}slot 100* o *${usedPrefix}slot all*`)
+    if (!args[0] || args[0] === 'help') return m.reply(`🎰 *CASINO zyklon*\n\nUso: *${usedPrefix}slot [cifra]*\nEsempio: *${usedPrefix}slot 100* o *${usedPrefix}slot all*`)
     
     if (args[0] === 'all') {
         bet = userMoney
@@ -92,7 +92,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
         .machine { 
             width: 700px; height: 320px; 
             background: linear-gradient(180deg, #222, #111);
-            border: 4px solid #333; 
+            border: 4px solid #zyklon; 
             border-radius: 20px; 
             padding: 20px;
             box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px #000;

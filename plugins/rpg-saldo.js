@@ -28,7 +28,7 @@ const generateCard = () => {
         tier: isPremium ? 'BLACK' : 'STANDARD',
         number: number.match(/.{1,4}/g).join(' '),
         cashback: isPremium ? 0.05 : 0.01,
-        color: isPremium ? 'linear-gradient(135deg, #0f0f0f 0%, #333 100%)' : 'linear-gradient(135deg, #002366 0%, #0056b3 100%)'
+        color: isPremium ? 'linear-gradient(135deg, #0f0f0f 0%, #zyklon 100%)' : 'linear-gradient(135deg, #002366 0%, #0056b3 100%)'
     }
 }
 
@@ -100,7 +100,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
         const htmlBank = `<html><head><style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&family=JetBrains+Mono:wght@500&display=swap');
             body { margin:0; width:1000px; height:600px; display:flex; align-items:center; justify-content:center; background:#1a1a1a; font-family:'Inter'; }
-            .atm-frame { width:950px; height:580px; background:linear-gradient(145deg, #333, #111); border-radius:20px; display:flex; padding:30px; box-sizing:border-box; border:4px solid #444; }
+            .atm-frame { width:950px; height:580px; background:linear-gradient(145deg, #zyklon, #111); border-radius:20px; display:flex; padding:30px; box-sizing:border-box; border:4px solid #444; }
             .screen-area { flex:1.5; background:#000; border-radius:10px; padding:25px; border:15px solid #222; position:relative; overflow:hidden; display:flex; }
             .glass-card { flex:1; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding:40px; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:2; }
             .bg-glow { position:absolute; width:300px; height:300px; background: #00ffcc; filter:blur(150px); opacity:0.15; top:50%; left:50%; transform:translate(-50%, -50%); }
