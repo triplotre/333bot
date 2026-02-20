@@ -31,18 +31,21 @@ function initDatabase() {
         const initialData = { users: {}, groups: {}, chats: {}, settings: {} }
         fs.writeFileSync(dbPath, JSON.stringify(initialData, null, 2), 'utf-8')
     }
-    try {
-        const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'))
-        global.db = {
-            data: {
-                users: data.users || {},
-                groups: data.groups || {},
-                chats: data.chats || {},
-                settings: data.settings || {}
+    
+    if (!global.db) {
+        try {
+            const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'))
+            global.db = {
+                data: {
+                    users: data.users || {},
+                    groups: data.groups || {},
+                    chats: data.chats || {},
+                    settings: data.settings || {}
+                }
             }
+        } catch (e) {
+            global.db = { data: { users: {}, groups: {}, chats: {}, settings: {} } }
         }
-    } catch (e) {
-        global.db = { data: { users: {}, groups: {}, chats: {}, settings: {} } }
     }
 }
 
@@ -58,7 +61,10 @@ function saveDatabase() {
 }
 
 initDatabase()
-setInterval(saveDatabase, 5000)
+
+if (!global.db_interval) {
+    global.db_interval = setInterval(saveDatabase, 5000)
+}
 
 export default async function handler(conn, chatUpdate) {
     if (!chatUpdate) return
@@ -87,13 +93,6 @@ export default async function handler(conn, chatUpdate) {
                   msgContent?.caption || 
                   m.text || ''
         
-        if (m.message.interactiveResponseMessage?.nativeFlowResponseMessage?.paramsJson) {
-            try {
-                let params = JSON.parse(m.message.interactiveResponseMessage.nativeFlowResponseMessage.paramsJson)
-                if (params.id) txt = params.id
-            } catch (e) { }
-        }
-
         m.text = txt.trim()
 
         const contextInfo = msgContent?.contextInfo
@@ -171,8 +170,7 @@ export default async function handler(conn, chatUpdate) {
 
             isRealAdmin = (userObj?.admin === 'admin' || userObj?.admin === 'superadmin')
             isBotAdmin = (botObj?.admin === 'admin' || botObj?.admin === 'superadmin')
-            
-            isAdmin = isRealAdmin 
+            isAdmin = isRealAdmin || isOwner
 
             groupAdmins = participants.filter(p => p.admin === 'admin' || p.admin === 'superadmin')
         } else {

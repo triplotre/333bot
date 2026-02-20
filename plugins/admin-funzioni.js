@@ -1,29 +1,29 @@
-import { writeFileSync } from 'fs'
-
 let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) => {
     const jid = m.chat
     const botId = conn.decodeJid(conn.user.id)
+    const isGroup = jid.endsWith('@g.us')
 
-    global.db.data.chats[jid] = global.db.data.chats[jid] || {}
+    const targetDb = isGroup ? global.db.data.groups : global.db.data.chats
+    targetDb[jid] = targetDb[jid] || {}
     global.db.data.settings[botId] = global.db.data.settings[botId] || {}
 
-    let chat = global.db.data.chats[jid]
+    let chat = targetDb[jid]
     let botSettings = global.db.data.settings[botId]
 
     const adminFeatures = [
-        { key: 'welcome', name: 'welcome' },
-        { key: 'goodbye', name: 'goodbye' },
-        { key: 'rileva', name: 'rileva' },
-        { key: 'antiwhatsapp', name: 'antiwhatsapp' },
-        { key: 'antitelegram', name: 'antitelegram' },
-        { key: 'antinsta', name: 'antinsta' },
-        { key: 'antilinkhard', name: 'antilinkhard' }
+        { key: 'welcome', name: 'Welcome' },
+        { key: 'goodbye', name: 'Goodbye' },
+        { key: 'rileva', name: 'Rileva Eventi' },
+        { key: 'antiwhatsapp', name: 'Anti WhatsApp' },
+        { key: 'antitelegram', name: 'Anti Telegram' },
+        { key: 'antinsta', name: 'Anti Instagram' },
+        { key: 'antilinkhard', name: 'Anti Link Hard' }
     ]
 
     const ownerFeatures = [
-        { key: 'antiprivato', name: 'antiprivato' },
-        { key: 'anticall', name: 'anticall' },
-        { key: 'ai_rispondi', name: 'rispondi' }
+        { key: 'antiprivato', name: 'Anti Privato' },
+        { key: 'anticall', name: 'Anti Chiamate' },
+        { key: 'ai_rispondi', name: 'AI Rispondi' }
     ]
 
     if (command === 'funzioni' || !args.length) {
@@ -34,14 +34,12 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
         const cards = []
 
         let adminBody = adminFeatures.map(f => {
-            const status = chat[f.key] ? '『🟢』' : '『🔴』'
-            return `${status} *${f.name}*`
+            return `${chat[f.key] ? '『🟢』' : '『🔴』'} *${f.name}*`
         }).join('\n')
 
         cards.push({
             image: { url: groupPp },
-            title: `『 🛡️ 』 *\`Impostazioni Admin\`*`,
-            body: adminBody,
+            body: `╭┈  『 🛡️ 』 \`impostazioni\`\n┆  『 👥 』 \`admin\`\n┆\n${adminBody.split('\n').map(x => `┆  ${x}`).join('\n')}\n╰┈➤ 『 📦 』 \`zykbot system\``,
             buttons: [
                 { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Dashboard', url: 'https://zyklon.vercel.app/' }) }
             ]
@@ -49,14 +47,12 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
 
         if (isOwner) {
             let ownerBody = ownerFeatures.map(f => {
-                const status = botSettings[f.key] ? '『🟢』' : '『🔴』'
-                return `${status} *${f.name}*`
+                return `${botSettings[f.key] ? '『🟢』' : '『🔴』'} *${f.name}*`
             }).join('\n')
 
             cards.push({
                 image: { url: ownerPp },
-                title: `『 👑 』 *\`Impostazioni Owner\`*`,
-                body: ownerBody,
+                body: `╭┈  『 👑 』 \`impostazioni\`\n┆  『 👤 』 \`owner\`\n┆\n${ownerBody.split('\n').map(x => `┆  ${x}`).join('\n')}\n╰┈➤ 『 📦 』 \`zykbot system\``,
                 buttons: [
                     { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Supporto', url: 'https://wa.me/212614769337' }) }
                 ]
@@ -64,11 +60,16 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
         }
 
         return await conn.sendMessage(m.chat, {
-            text: `⛩️ ╰┈➤ *PANNELLO GESTIONE*\nUsa *${usedPrefix}attiva <funzione>* o *${usedPrefix}disattiva <funzione>*`,
+            text: `╭┈  『 ⚙️ 』 \`pannello\` ─ *GESTIONE*\n╰┈➤ Usa *${usedPrefix}attiva* o *${usedPrefix}disattiva*`,
             cards: cards,
             contextInfo: {
                 isForwarded: true,
-                forwardedNewsletterMessageInfo: { newsletterJid: global.canale?.id, newsletterName: global.canale?.nome }
+                ...(global.canale ? {
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: global.canale.id,
+                        newsletterName: global.canale.nome
+                    }
+                } : {})
             }
         }, { quoted: m })
     }
@@ -89,13 +90,8 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
             if (!chat.antinsta) missing.push('antinsta')
 
             if (missing.length > 0) {
-                return m.reply(
-                    `⛔ *AZIONE NEGATA*\n\n` +
-                    `Per attivare \`antilinkhard\` (che blocca TUTTI i link), devi prima attivare i filtri specifici mancanti:\n\n` +
-                    missing.map(x => `❌ ${x}`).join('\n') +
-                    `\n\nUsa:\n` +
-                    missing.map(x => `*${usedPrefix}attiva ${x}*`).join('\n')
-                )
+                const textMissing = `╭┈  『 ⛔ 』 \`azione negata\`\n┆  Per attivare \`antilinkhard\` devi\n┆  prima attivare questi filtri:\n┆\n${missing.map(x => `┆  ❌ ${x}`).join('\n')}\n╰┈➤ Usa: *${usedPrefix}attiva <filtro>*`
+                return m.reply(textMissing)
             }
         }
 
@@ -105,18 +101,21 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
         if (!isOwner) return m.reply('🏮 Solo l\'owner può gestire questa funzione.')
         botSettings[ownerF.key] = isEnable
     } else {
-        return m.reply(`🏮 ╰┈➤ Modulo \`${type}\` non trovato.\nUsa *${usedPrefix}funzioni* per la lista.`)
+        return m.reply(`╭┈  『 🏮 』 \`errore\`\n┆  Modulo \`${type}\` non trovato.\n╰┈➤ Usa *${usedPrefix}funzioni* per la lista.`)
     }
 
-    writeFileSync('./database.json', JSON.stringify(global.db.data, null, 2))
-
-    let confText = `🏮 *Funzione:* \`${type}\`\n🧧 *Stato:* ${isEnable ? '🟢 ATTIVATA' : '🔴 DISATTIVATA'}`
+    let confText = `╭┈  『 ⚙️ 』 \`aggiornamento\`\n┆  『 🧩 』 \`modulo\` ─ *${type}*\n╰┈➤ 『 📊 』 \`stato\` ─ *${isEnable ? '🟢 ATTIVATA' : '🔴 DISATTIVATA'}*`
 
     await conn.sendMessage(jid, {
         text: confText,
         contextInfo: {
             isForwarded: true,
-            forwardedNewsletterMessageInfo: { newsletterJid: global.canale?.id, newsletterName: global.canale?.nome }
+            ...(global.canale ? {
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: global.canale.id,
+                    newsletterName: global.canale.nome
+                }
+            } : {})
         }
     }, { quoted: m })
 }
@@ -125,6 +124,5 @@ handler.help = ['funzioni', 'attiva <funzione>', 'disattiva <funzione>']
 handler.tags = ['admin']
 handler.command = ['funzioni', 'attiva', 'disattiva', 'on', 'off', 'enable', 'disable']
 handler.group = true
-handler.admin = true
-handler.isAdmin = true
+
 export default handler
