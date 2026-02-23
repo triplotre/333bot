@@ -8,7 +8,7 @@ const BROWSERLESS_KEY = global.APIKeys?.browserless
 const handler = async (m, { conn, usedPrefix }) => {
     await conn.sendPresenceUpdate('recording', m.chat)
 
-    const repoPath = "realzyklon/zyklon"
+    const repoPath = "realzyklon/zyk-bot"
     const userPath = 'zyklon'
     const repoUrl = `https://github.com/${repoPath}`
     const packageUrl = `${repoUrl}/releases/latest`
