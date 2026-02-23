@@ -38,11 +38,8 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
     let inventoryDb = getDb(inventoryPath)
     let bancaDb = getDb(bancaPath)
 
-    // --- FIX SALVATAGGIO NULL ---
-    // Inizializza l'utente se non esiste
     if (!walletDb[jid]) walletDb[jid] = {}
     
-    // Controlla e ripara le proprietà singole se mancano o non sono numeri
     if (typeof walletDb[jid].money !== 'number') walletDb[jid].money = 0
     if (typeof walletDb[jid].bank !== 'number') walletDb[jid].bank = 0
     if (typeof walletDb[jid].lastFree !== 'number') walletDb[jid].lastFree = 0
@@ -95,7 +92,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
     }
 
     if (command === 'banca') {
-        if (!card.hasCard) return conn.sendMessage(m.chat, { text: '🚫 Errore: Inserire la carta magnetica per accedere allo sportello.' }, { quoted: m })
+        if (!card.hasCard) return conn.sendMessage(m.chat, { text: '🚫 Non possiedi una carta di credito. Acquista una carta con `.shop buy carta`' }, { quoted: m })
         await conn.sendPresenceUpdate('composing', m.chat)
         const htmlBank = `<html><head><style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&family=JetBrains+Mono:wght@500&display=swap');
@@ -141,7 +138,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
     }
 
     if (command === 'dep' || command === 'with') {
-        if (!card.hasCard) return conn.sendMessage(m.chat, { text: '🚫 Serve la carta.' }, { quoted: m })
+        if (!card.hasCard) return conn.sendMessage(m.chat, { text: '🚫 Serve la carta.\n.shop buy carta' }, { quoted: m })
         let input = (text || '').trim().toLowerCase()
         let amt = 0
         
@@ -171,7 +168,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
     }
 
     if (command === 'free' || command === 'daily') {
-        const cooldown = 86400000 // 24 ore
+        const cooldown = 86400000 
         const now = Date.now()
         if (now - (walletDb[jid].lastFree || 0) < cooldown) {
             const remaining = cooldown - (now - walletDb[jid].lastFree)

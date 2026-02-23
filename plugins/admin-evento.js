@@ -1,5 +1,5 @@
 const handler = async (m, { conn, text }) => {
-    const { generateWAMessageFromContent } = (await import('@realvare/based')).default
+    const { generateWAMessageFromContent } = (await import('@realvare/baileys')).default
     
     let [eventTitle, eventDesc, eventLoc] = text.split('|').map(v => v.trim())
     

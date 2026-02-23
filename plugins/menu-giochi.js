@@ -21,7 +21,6 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner }) => {
 
   let menuContent = '';
   for (let tag in tagMapping) {
-      // Filtra i plugin che hanno il tag corrente
       let groups = help.filter(plugin => plugin.tags && plugin.tags.includes(tag));
       if (groups.length === 0) continue;
 

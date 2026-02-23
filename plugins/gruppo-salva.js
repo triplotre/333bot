@@ -28,8 +28,6 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
         let plName = parts[2] || null
 
         console.log(`[SALVA LOG] Analisi: Titolo="${songTitle}", Playlist="${plName}"`)
-
-        // FASE 1: GENERAZIONE BOTTONI CON RELAYMESSAGE
         if (!plName) {
             let userPls = pl[m.sender] || {}
             let keys = Object.keys(userPls)
@@ -69,7 +67,6 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
             return await conn.relayMessage(m.chat, msg, {})
         }
 
-        // FASE 2: SALVATAGGIO
         console.log(`[SALVA LOG] Tentativo salvataggio in: ${plName}`)
         if (!pl[m.sender] || !pl[m.sender][plName]) return m.reply(`『 ❌ 』 Playlist *${plName}* non esiste.`)
 

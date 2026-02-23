@@ -8,8 +8,8 @@ import store from './lib/store.js'
 import fs from 'fs'
 import { promises as fsAsync } from 'fs'
 import path from 'path'
+import { downloadContentFromMessage } from '@realvare/baileys'
 
-// Flag per ottimizzazione scritture DB
 let dbDirty = false
 let isSaving = false
 
@@ -61,7 +61,6 @@ async function saveDatabase() {
     try {
         dbDirty = false 
         
-        // Pulizia metadata inutili per abbassare enormemente il peso del file
         const cleanDb = ['chats', 'groups']
         for (const type of cleanDb) {
             for (const jid in global.db.data[type]) {
@@ -87,7 +86,6 @@ async function saveDatabase() {
                     delete chatData.joinApprovalMode
                     delete chatData.memberAddMode
                     
-                    // Rimuove i gruppi salvati per sbaglio in chats
                     if (type === 'chats' && jid.endsWith('@g.us')) {
                         delete global.db.data.chats[jid]
                     }
@@ -122,6 +120,32 @@ export default async function handler(conn, chatUpdate) {
         m = smsg(conn, m)
         if (!m || !m.message) return
 
+        const fixDownload = (msg) => {
+            if (!msg) return
+            msg.download = async () => {
+                try {
+                    let mtype = msg.mtype || msg.mediaType || Object.keys(msg.message || msg.msg || {})[0]
+                    if (mtype === 'viewOnceMessage' || mtype === 'viewOnceMessageV2') {
+                        const innerMsg = msg.message[mtype].message
+                        mtype = Object.keys(innerMsg)[0]
+                        msg.msg = innerMsg[mtype]
+                    }
+                    const rawContent = msg.msg || msg.message || msg
+                    const mediaObj = rawContent[mtype] || rawContent
+                    
+                    const stream = await downloadContentFromMessage(mediaObj, mtype.replace('Message', ''))
+                    let buffer = Buffer.from([])
+                    for await (const chunk of stream) buffer = Buffer.concat([buffer, chunk])
+                    return buffer
+                } catch (e) {
+                    console.error('[Download Error]:', e.message)
+                    return null
+                }
+            }
+        }
+        fixDownload(m)
+        if (m.quoted) fixDownload(m.quoted)
+
         const msgType = Object.keys(m.message)[0]
         const msgContent = m.message[msgType]
         
@@ -152,6 +176,7 @@ export default async function handler(conn, chatUpdate) {
                 messageTimestamp: contextInfo.quotedStanzaID || Date.now()
             }
             m.quoted = smsg(conn, quotedMsg)
+            fixDownload(m.quoted) 
         }
 
         const jid = m.chat
@@ -167,6 +192,21 @@ export default async function handler(conn, chatUpdate) {
         const senderNum = sender.split('@')[0].replace(/[^0-9]/g, '')
         const isOwner = global.owner.some(o => o[0].replace(/[^0-9]/g, '') === senderNum)
 
+        const bannedPath = path.join(process.cwd(), 'media', 'banned.json')
+        if (!fs.existsSync(path.dirname(bannedPath))) fs.mkdirSync(path.dirname(bannedPath), { recursive: true })
+        if (!fs.existsSync(bannedPath)) fs.writeFileSync(bannedPath, JSON.stringify({ users: [], chats: [] }, null, 2))
+        
+        let bannedData = { users: [], chats: [] }
+        try { bannedData = JSON.parse(fs.readFileSync(bannedPath, 'utf-8')) } catch (e) {}
+
+        if (!isOwner) {
+            if ((bannedData.users && bannedData.users.includes(sender)) || 
+                (bannedData.chats && bannedData.chats.includes(jid))) {
+                return 
+            }
+        }
+      
+
         let isAdmin = false
         let isBotAdmin = false
         let isRealAdmin = false 
@@ -174,7 +214,6 @@ export default async function handler(conn, chatUpdate) {
         let groupAdmins = []
 
         if (isGroup) {
-            // Usa la cache se possibile, altrimenti scarica i partecipanti
             participants = conn.chats?.[jid]?.metadata?.participants || []
             
             if (!participants.length) {

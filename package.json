@@ -1,5 +1,5 @@
 {
-  "name": "33bot",
+  "name": "zyklon-bot",
   "version": "1.4.0",
   "description": "WhatsApp Bot creato da zero per zyklon",
   "main": "zyklon.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",
-    "@realvare/based": "latest",
+    "@realvare/baileys": "latest",
     "awesome-phonenumber": "^3.4.0",
     "axios": "^1.12.2",
     "chalk": "^5.3.0",

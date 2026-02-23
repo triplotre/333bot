@@ -1,4 +1,4 @@
-import pkg from "@realvare/based";
+import pkg from "@realvare/baileys";
 const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = pkg;
 import pino from "pino";
 import fs from "fs";

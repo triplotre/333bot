@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { downloadContentFromMessage } from '@realvare/based'
+import { downloadContentFromMessage } from '@realvare/baileys'
 
 const handler = async (m, { conn, text }) => {
     if (!text) return conn.sendMessage(m.chat, { text: '⚠️ Inserisci il nome del file.\nEsempio: *.sf admin*' }, { quoted: m })
