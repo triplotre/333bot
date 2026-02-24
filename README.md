@@ -38,7 +38,7 @@ export GYP_DEFINES="android_ndk_path=''"
 cd ~
 ```
 ```bash  
-git clone https://github.com/realzyklon/zyklon/
+git clone https://github.com/troncare/zyklon/
 ```
 ```bash  
 cd zyklon
@@ -64,7 +64,7 @@ sudo apt update && apt upgrade -y
 sudo apt install git nodejs ffmpeg imagemagick python pip3
 ```
 ```bash  
-git clone https://github.com/realzyklon/zyklon
+git clone https://github.com/troncare/zyklon
 ```
 ```bash  
 cd zyklon
@@ -74,14 +74,14 @@ npm i && npm start
 ```
 ## ❤️ Crediti
 
-- [@realzyklon](https://www.github.com/realzyklon) - creatore della base e dei comandi del bot
-- [@realvare](https://github.com/realvare) - fork di baileys (based)
+- [@troncare](https://www.github.com/troncare) - creatore della base e dei comandi del bot
+- [@realvare](https://github.com/realvare) - fork di baileys
 
 ## 👥 Contributori
 
 <p align="center">
-  <a href="https://github.com/realzyklon/zyklon/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=realzyklon/zyklon"/>
+  <a href="https://github.com/troncare/zyklon/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=troncare/zyklon"/>
   </a>
 </p>
 
