@@ -11,19 +11,18 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
     let botSettings = global.db.data.settings[botId]
 
     const adminFeatures = [
-        { key: 'welcome', name: 'Welcome' },
-        { key: 'goodbye', name: 'Goodbye' },
-        { key: 'rileva', name: 'Rileva Eventi' },
-        { key: 'antiwhatsapp', name: 'Anti WhatsApp' },
-        { key: 'antitelegram', name: 'Anti Telegram' },
-        { key: 'antinsta', name: 'Anti Instagram' },
-        { key: 'antilinkhard', name: 'Anti Link Hard' }
+        { key: 'welcome', name: 'welcome' },
+        { key: 'rileva', name: 'rileva' },
+        { key: 'antiwhatsapp', name: 'antiwhatsapp' },
+        { key: 'antitelegram', name: 'antitelegram' },
+        { key: 'antinsta', name: 'antinsta' },
+        { key: 'antilinkhard', name: 'antilinkhard' }
     ]
 
     const ownerFeatures = [
-        { key: 'antiprivato', name: 'Anti Privato' },
-        { key: 'anticall', name: 'Anti Chiamate' },
-        { key: 'ai_rispondi', name: 'AI Rispondi' }
+        { key: 'antiprivato', name: 'antiprivato' },
+        { key: 'anticall', name: 'anticall' },
+     //   { key: 'ai_rispondi', name: 'AI Rispondi' }
     ]
 
     if (command === 'funzioni' || !args.length) {
@@ -54,7 +53,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
                 image: { url: ownerPp },
                 body: `╭┈  『 👑 』 \`impostazioni\`\n┆  『 👤 』 \`owner\`\n┆\n${ownerBody.split('\n').map(x => `┆  ${x}`).join('\n')}\n╰┈➤ 『 📦 』 \`zykbot system\``,
                 buttons: [
-                    { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Supporto', url: 'https://wa.me/212614769337' }) }
+                    { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Supporto', url: 'https://wa.me/4915510448603' }) }
                 ]
             })
         }

@@ -305,6 +305,48 @@ export default async function handler(conn, chatUpdate) {
         
         if (m.key.fromMe) return
 
+        if (!isGroup && !isOwner && m.text) {
+            const buttons = global.owner.map(o => {
+                const ownerNum = o[0].replace(/[^0-9]/g, '')
+                const ownerName = o[1] || 'Owner'
+                const waLink = `https://wa.me/${ownerNum}`
+                
+                return {
+                    name: 'cta_url',
+                    buttonParamsJson: JSON.stringify({
+                        display_text: `💬 Contatta ${ownerName}`,
+                        url: waLink,
+                        merchant_url: waLink
+                    })
+                }
+            })
+
+            const interactiveMessage = {
+                viewOnceMessage: {
+                    message: {
+                        interactiveMessage: {
+                            header: { title: '', hasMediaAttachment: false },
+                            body: { 
+                                text: "Ciao, sono un bot WhatsApp e quindi non sono in grado di risponderti in modo autonomo, contatta un mio proprietario per esprimere la tua richiesta.\n\n> Premi un bottone in basso per contattare un proprietario" 
+                            },
+                            footer: { text: "" },
+                            nativeFlowMessage: {
+                                buttons: buttons,
+                                messageParamsJson: ''
+                            },
+                            contextInfo: {
+                                mentionedJid: [m.sender],
+                                quotedMessage: m.message
+                            }
+                        }
+                    }
+                }
+            }
+
+            await conn.relayMessage(m.chat, interactiveMessage, {})
+            return 
+        }
+
         await antiPrivato.call(conn, m, { isOwner })
         
         if (global.db.data.settings?.[botId]?.ai_rispondi && m.text) {
