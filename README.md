@@ -38,10 +38,10 @@ export GYP_DEFINES="android_ndk_path=''"
 cd ~
 ```
 ```bash  
-git clone https://github.com/troncare/zyklon/
+git clone https://github.com/troncare/zyk-bot/
 ```
 ```bash  
-cd zyklon
+cd zyk-bot
 ```
 ```bash  
 npm install --global yarn
@@ -64,10 +64,10 @@ sudo apt update && apt upgrade -y
 sudo apt install git nodejs ffmpeg imagemagick python pip3
 ```
 ```bash  
-git clone https://github.com/troncare/zyklon
+git clone https://github.com/troncare/zyk
 ```
 ```bash  
-cd zyklon
+cd zyk-bot
 ```
 ```bash  
 npm i && npm start
@@ -80,8 +80,8 @@ npm i && npm start
 ## 👥 Contributori
 
 <p align="center">
-  <a href="https://github.com/troncare/zyklon/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=troncare/zyklon"/>
+  <a href="https://github.com/troncare/zyk-bot/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=troncare/zyk-bot"/>
   </a>
 </p>
 
