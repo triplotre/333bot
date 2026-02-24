@@ -1,5 +1,12 @@
 import pkg from "@realvare/baileys";
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = pkg;
+const { 
+    default: makeWASocket, 
+    useMultiFileAuthState, 
+    DisconnectReason, 
+    fetchLatestBaileysVersion,
+    WAMessageStubType 
+} = pkg;
+
 import pino from "pino";
 import fs from "fs";
 import path from "path";
@@ -12,7 +19,7 @@ import print from "./lib/print.js";
 import { groupUpdate } from './funzioni/admin/permessi.js';
 import { eventsUpdate } from "./funzioni/admin/welcome-addio.js";
 import { checkConfig } from './lib/configInit.js';
-import { setupWatcher } from './lib/watcher.js'; 
+import { setupWatcher } from './lib/watcher.js';
 
 process.on('uncaughtException', (err) => {
     console.error(chalk.red('\n[ ⚠️ ERRORE FATALE IGNORATO ] Uncaught Exception:'), err.message || err);
