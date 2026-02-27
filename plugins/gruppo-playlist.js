@@ -146,7 +146,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
             headerType: 4
         }, { quoted: m })
 
-        setTimeout(() => { if (fs.existsSync(fileName)) fs.unlinkSync(fileName) }, 15000)
+        if (fs.existsSync(fileName)) fs.unlinkSync(fileName)
     } catch (e) {
         return m.reply('『 ❌ 』 Errore tecnico nel rendering.')
     }

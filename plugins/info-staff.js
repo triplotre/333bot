@@ -1,11 +1,10 @@
 let handler = async (m, { conn }) => {
-    let owners = global.owner.filter(o => o[0] && o[1])
+    let owners = global.owner.filter(o => o[0] && o[1] && (o[2] === true || o[2] === 'true'))
     
-    if (owners.length === 0) return m.reply('`𐔌⚠️ ꒱` _Nessun proprietario configurato in config.js_')
+    if (owners.length === 0) return m.reply('`𐔌⚠️ ꒱` _Nessun proprietario idoneo configurato in config.js_')
 
     let contacts = []
     for (let [number, name] of owners) {
-        let jid = number.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
         contacts.push({
             vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;${name};;;\nFN:${name}\nORG:staff pazzerello!!\nTEL;type=CELL;type=VOICE;waid=${number.replace(/[^0-9]/g, '')}:+${number.replace(/[^0-9]/g, '')}\nEND:VCARD`
         })

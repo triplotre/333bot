@@ -154,7 +154,7 @@ const handler = async (m, { conn, usedPrefix }) => {
             mentions: [targetUser]
         }, { quoted: m })
 
-        setTimeout(() => { if (fs.existsSync(fileName)) fs.unlinkSync(fileName) }, 15000)
+        if (fs.existsSync(fileName)) fs.unlinkSync(fileName)
 
     } catch (e) { 
         console.error(e)

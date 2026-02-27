@@ -6,6 +6,17 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
     const id = m.chat
     const lobbyName = args[0]?.toLowerCase()
 
+   
+    const now = Date.now()
+    for (const chatId in tris) {
+        for (const name in tris[chatId]) {
+            if (tris[chatId][name]._createdAt && now - tris[chatId][name]._createdAt > 20 * 60 * 1000) {
+                delete tris[chatId][name]
+            }
+        }
+        if (Object.keys(tris[chatId]).length === 0) delete tris[chatId]
+    }
+
     if (!lobbyName) {
         return conn.sendMessage(m.chat, { text: `⚠️ Specifica il nome della lobby!\nEs: *${usedPrefix}${command} sfida*` }, { quoted: m })
     }
@@ -59,7 +70,8 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
             p2: null,
             p2Name: null,
             turn: m.sender,
-            status: 'WAITING'
+            status: 'WAITING',
+            _createdAt: Date.now()
         }
         return conn.sendMessage(m.chat, { text: `🎮 Lobby *${lobbyName}* creata da *${m.pushName}*.\nScrivi *${usedPrefix}${command} ${lobbyName}* per sfidarlo!`, ...global.newsletter() }, { quoted: m })
     } else {

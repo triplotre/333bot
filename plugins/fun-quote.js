@@ -103,12 +103,13 @@ const handler = async (m, { conn, text }) => {
             options: { type: 'jpeg', quality: 95 } 
         }, { responseType: 'arraybuffer' })
 
-        return conn.sendMessage(m.chat, { 
+        await conn.sendMessage(m.chat, { 
             image: Buffer.from(ss.data),
             caption: caption, 
             buttons: [{ buttonId: '.s', buttonText: { displayText: 'RENDI UNO STICKER' }, type: 1 }],
             contextInfo
         }, { quoted: m })
+        return
     } catch (e) {
         return conn.sendMessage(m.chat, {
             text: `╭┈  『 ⚠️ 』 \`errore\`\n╰┈➤ Impossibile generare l'immagine al momento.`,

@@ -195,7 +195,7 @@ const handler = async (m, { conn, usedPrefix }) => {
             }, { quoted: quotedMsg })
         }
 
-        setTimeout(() => { if (fs.existsSync(fileProfilo)) fs.unlinkSync(fileProfilo) }, 20000)
+        if (fs.existsSync(fileProfilo)) fs.unlinkSync(fileProfilo)
 
     } catch (e) {
         console.error(e)

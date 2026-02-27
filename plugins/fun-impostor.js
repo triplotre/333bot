@@ -5,6 +5,17 @@ let lobby = {}
 const handler = async (m, { conn, text, usedPrefix, command }) => {
     const id = m.chat
     const isPrivate = m.chat.endsWith('@s.whatsapp.net')
+    const now = Date.now()
+    for (const chatId in lobby) {
+        for (const name in lobby[chatId]) {
+            const game = lobby[chatId][name]
+            if (game._createdAt && now - game._createdAt > 30 * 60 * 1000) {
+                if (game.timer) clearTimeout(game.timer)
+                delete lobby[chatId][name]
+            }
+        }
+        if (Object.keys(lobby[chatId]).length === 0) delete lobby[chatId]
+    }
 
     const dizionario = [
         ['Pizza', 'Cibo italiano'], ['iPhone', 'Smartphone'], ['Calcio', 'Sport di squadra'],
@@ -52,7 +63,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
             lobby[id] = {
                 codice, stato: 'LOBBY', owner: m.sender, partecipanti: [],
                 parolaMembri: '', indizioImpostore: '', impostore: '',
-                descrizioni: {}, voti: {}, votiRicevuti: {}, timer: null
+                descrizioni: {}, voti: {}, votiRicevuti: {}, timer: null,
+                _createdAt: Date.now()
             }
             lobby[id].timer = setTimeout(() => {
                 if (lobby[id]?.stato === 'LOBBY') {

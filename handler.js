@@ -104,9 +104,8 @@ async function saveDatabase() {
 
 initDatabase()
 
-if (!global.db_interval) {
-    global.db_interval = setInterval(saveDatabase, 15000)
-}
+if (global.db_interval) clearInterval(global.db_interval)
+global.db_interval = setInterval(saveDatabase, 15000)
 
 export default async function handler(conn, chatUpdate) {
     if (!chatUpdate) return
