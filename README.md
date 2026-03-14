@@ -5,21 +5,21 @@
 ![Node](https://img.shields.io/badge/Node.js-18%2B-green?style=flat-square&logo=node.js)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
 ![Version](https://img.shields.io/badge/version-1.5.0-purple?style=flat-square)
-![Platform](https://img.shields.io/badge/platform-Android%20%7C%20Linux%20%7C%20Windows%20%7C%20macOS-lightgrey?style=flat-square)
+![Platform](https://img.shields.io/badge/platform-Android%20%7C%20Linux-lightgrey?style=flat-square)
 
 ---
 
 ## ⚠️ Note importanti
 
-- *Compatibile con Android 8.1+, Windows 10+, macOS e Linux.*
+- *Compatibile con Android 8.1+ e Linux (Ubuntu/Debian).*
 - *Se al primo avvio ricevi `ERR: 408 Request Timeout`, riavvia il bot: si connetterà correttamente al secondo tentativo.*
-- *Il bot usa **ESModules** (`"type": "module"` in package.json) — assicurati di usare Node.js 18+.*
+- *Il bot usa **ESModules** — assicurati di usare Node.js 18+.*
 
 ---
 
 ## 🔑 Configurazione API Keys
 
-Alcune funzioni richiedono API esterne. Dopo l'installazione, modifica `config.js` e inserisci le tue chiavi in `global.APIKeys`:
+Dopo l'installazione, modifica `config.js` e inserisci le tue chiavi in `global.APIKeys`:
 
 | Chiave | Servizio | Usato per |
 |--------|----------|-----------|
@@ -56,7 +56,7 @@ pip install setuptools
 export GYP_DEFINES="android_ndk_path=''"
 ```
 ```bash
-cd ~ && git clone https://github.com/troncare/zyk-bot && cd zyk-bot
+cd ~ && git clone https://github.com/troncarlo/zyk-bot && cd zyk-bot
 ```
 ```bash
 npm install --global yarn && yarn install
@@ -72,12 +72,11 @@ npm start
 **Requisiti:**
 - 3 GB di RAM
 - 32 GB di SSD/HDD
-- Node.js 18+ (vedi sotto)
+- Node.js 18+
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 ```bash
-# Installa Node.js 18+ tramite NodeSource (apt di default spesso è troppo vecchio)
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install -y nodejs
 ```
@@ -85,7 +84,7 @@ sudo apt install -y nodejs
 sudo apt install -y git ffmpeg imagemagick python3 python3-pip build-essential
 ```
 ```bash
-git clone https://github.com/troncare/zyk-bot && cd zyk-bot
+git clone https://github.com/troncarlo/zyk-bot && cd zyk-bot
 ```
 ```bash
 npm install
@@ -96,37 +95,7 @@ npm start
 
 ---
 
-### 3️⃣ Windows 10/11
-
-**Requisiti:**
-- Node.js 18+ → [nodejs.org](https://nodejs.org)
-- Git → [git-scm.com](https://git-scm.com)
-- FFmpeg → [ffmpeg.org](https://ffmpeg.org/download.html) *(aggiungerlo al PATH)*
-```powershell
-git clone https://github.com/troncare/zyk-bot
-cd zyk-bot
-npm install
-npm start
-```
-
----
-
-### 4️⃣ macOS
-```bash
-# Installa Homebrew se non lo hai
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-```bash
-brew install node git ffmpeg imagemagick
-```
-```bash
-git clone https://github.com/troncare/zyk-bot && cd zyk-bot
-npm install && npm start
-```
-
----
-
-## 🚀 Avvio e comandi npm
+## 🚀 Comandi npm
 
 | Comando | Descrizione |
 |---------|-------------|
@@ -138,18 +107,18 @@ npm install && npm start
 
 ## 🧩 Dipendenze principali
 
-| Pacchetto | Versione | Funzione |
-|-----------|----------|----------|
-| `@realvare/baileys` | latest | Core WebSocket WhatsApp |
-| `axios` | ^1.12 | Chiamate API esterne |
-| `chalk` | ^5.3 | Output colorato nel terminale |
-| `chokidar` | 5.0.0 | Hot-reload plugin |
-| `file-type` | ^21.3 | Rilevamento tipo file/media |
-| `node-cache` | ^5.1 | Cache contatti e gruppi |
-| `pino` | ^8.16 | Logger silenzioso |
-| `node-fetch` | ^3.3 | Fetch HTTP nei plugin |
-| `moment-timezone` | ^0.5 | Gestione fusi orari |
-| `yt-search` | ^2.13 | Ricerca YouTube (`.play`) |
+| Pacchetto | Funzione |
+|-----------|----------|
+| `@realvare/baileys` | Core WebSocket WhatsApp |
+| `axios` | Chiamate API esterne |
+| `chalk` | Output colorato nel terminale |
+| `chokidar` | Hot-reload plugin |
+| `file-type` | Rilevamento tipo file/media |
+| `node-cache` | Cache contatti e gruppi |
+| `pino` | Logger |
+| `node-fetch` | Fetch HTTP nei plugin |
+| `moment-timezone` | Gestione fusi orari |
+| `yt-search` | Ricerca YouTube (`.play`) |
 
 ---
 
@@ -170,13 +139,13 @@ zyk-bot/
 
 ## ❤️ Crediti
 
-- [@troncare](https://github.com/troncare) — creatore della base e dei comandi del bot
+- [@troncarlo](https://github.com/troncarlo) — creatore della base e dei comandi del bot
 - [@realvare](https://github.com/realvare) — fork di Baileys
 
 ## 👥 Contributori
 
 <p align="center">
-  <a href="https://github.com/troncare/zyk-bot/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=troncare/zyk-bot"/>
+  <a href="https://github.com/troncarlo/zyk-bot/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=troncarlo/zyk-bot"/>
   </a>
 </p>
