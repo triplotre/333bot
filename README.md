@@ -4,7 +4,7 @@
 
 ![Node](https://img.shields.io/badge/Node.js-18%2B-green?style=flat-square&logo=node.js)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
-![Version](https://img.shields.io/badge/version-1.5.0-purple?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.6.0-purple?style=flat-square)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20Linux-lightgrey?style=flat-square)
 
 ---
