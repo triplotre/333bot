@@ -1,15 +1,15 @@
 {
-  "name": "zyklon-bot",
+  "name": "annoyed-bot",
   "version": "1.6.0",
   "description": "WhatsApp Bot creato da zero da @troncarlo",
-  "main": "zyklon.js",
+  "main": "annoyed.js",
   "type": "module",
-  "author": "zyklon",
+  "author": "annoyed",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "node zyklon.js",
-    "qr": "node zyklon.js qr",
-    "code": "node zyklon.js code"
+    "start": "node annoyed.js",
+    "qr": "node annoyed.js qr",
+    "code": "node annoyed.js code"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",

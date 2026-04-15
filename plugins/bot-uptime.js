@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
                 text: `『 🕒 』 *UPTIME* ─ *${uptime}*`
             },
             footer: {
-                text: "Zyklon System"
+                text: "annoyed System"
             },
             header: {
                 hasMediaAttachment: false
@@ -29,7 +29,7 @@ let handler = async (m, { conn }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: global.newsletter,
-                    newsletterName: "Zyklon Update",
+                    newsletterName: "annoyed Update",
                     serverMessageId: -1
                 },
                 forwardingScore: 999

@@ -23,7 +23,7 @@ const handler = async (m, { conn }) => {
         contextInfo: {
             ...global.newsletter().contextInfo,
             externalAdReply: {
-                title: `zyklon v${versione}`,
+                title: `annoyed v${versione}`,
                 body: `${versione} • ${lattenza}ms`,
                 renderLargerThumbnail: false,
                 thumbnailUrl: foto,

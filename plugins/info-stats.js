@@ -23,7 +23,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     caption += `┆  『 👤 』 \`utente\` ─ @${m.sender.split('@')[0]}\n`
     caption += `┆  『 🕒 』 \`attività\` ─ ${ore}h ${minuti}m ${secondi}s\n`
     caption += `┆  『 🚀 』 \`prossima ora\` ─ tra ${minMancanti}m ${secMancanti}s\n`
-    caption += `╰┈➤ 『 📦 』 \`zyklon system\``
+    caption += `╰┈➤ 『 📦 』 \`annoyed system\``
 
     await conn.sendMessage(m.chat, {
         text: caption,
@@ -32,7 +32,7 @@ let handler = async (m, { conn, usedPrefix }) => {
             ...global.newsletter().contextInfo,
             externalAdReply: {
                 title: 'ATTIVITÀ UTENTE',
-                body: `Zyklon Tracking System`,
+                body: `annoyed Tracking System`,
                 thumbnailUrl: await conn.profilePictureUrl(m.sender, 'image').catch(() => 'https://i.ibb.co/3Fh9V6p/avatar-group-default.png'),
                 sourceUrl: global.canale.link,
                 mediaType: 1,

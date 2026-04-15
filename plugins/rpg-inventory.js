@@ -54,12 +54,12 @@ const handler = async (m, { conn, usedPrefix }) => {
                     contextInfo: {
                         mentionedJid: [m.sender],
                         isForwarded: true,    
-                        stanzaId: 'zyklonbotSystem',
+                        stanzaId: 'annoyedbotSystem',
                         participant: '0@s.whatsapp.net',
                         quotedMessage: {
                             contactMessage: {
-                                displayName: `⋆. zyklonbot 𝜗𝜚˚⋆`,
-                                vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;zyklonbot;;;\nFN:zyklonbot\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
+                                displayName: `⋆. annoyedbot 𝜗𝜚˚⋆`,
+                                vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;annoyedbot;;;\nFN:annoyedbot\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
                             }
                         }
                     }

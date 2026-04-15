@@ -10,7 +10,7 @@ Crea un QR code da testo, link, email, etc.
 *Esempi d'uso:*
 
 📱 Link:
-${usedPrefix + command} https://github.com/zyklon
+${usedPrefix + command} https://github.com/annoyed
 
 📧 Email:
 ${usedPrefix + command} giuse@varebot.com

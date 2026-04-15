@@ -11,7 +11,7 @@ const handler = async (m, { conn, text }) => {
 
     const safeGetName = async (id) => {
         try {
-            if (id === conn.decodeJid(conn.user?.id)) return global.bot || 'ZYKLON'
+            if (id === conn.decodeJid(conn.user?.id)) return global.bot || 'annoyed'
             return conn.getName ? await conn.getName(id) : id.split('@')[0]
         } catch {
             return id.split('@')[0]
@@ -46,7 +46,7 @@ const handler = async (m, { conn, text }) => {
     await conn.sendPresenceUpdate('composing', m.chat)
 
     const BROWSERLESS_KEY = global.APIKeys?.browserless
-    const botName = global.bot || 'ZYKLON'
+    const botName = global.bot || 'annoyed'
     const formattedNum = formatNum(senderJid)
     const caption = ' ' 
     

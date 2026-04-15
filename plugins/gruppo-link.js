@@ -17,7 +17,7 @@ const handler = async (m, { conn, args, usedPrefix }) => {
     const forceIos = args[0]?.toLowerCase() === 'ios'
 
     if (device === 'ios' || forceIos) {
-        const messageText = `╭┈➤ 『 🔗 』 *LINK GRUPPO*\n┆  『 👥 』 \`membri\` ─ ${metadata.participants.length}\n┆  『 🌐 』 \`link\` ─ ${linkgruppo}\n╰┈➤ 『 📦 』 \`zyklon system\``
+        const messageText = `╭┈➤ 『 🔗 』 *LINK GRUPPO*\n┆  『 👥 』 \`membri\` ─ ${metadata.participants.length}\n┆  『 🌐 』 \`link\` ─ ${linkgruppo}\n╰┈➤ 『 📦 』 \`annoyed system\``
 
         return await conn.sendMessage(m.chat, {
             text: messageText,

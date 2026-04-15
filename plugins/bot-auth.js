@@ -37,7 +37,7 @@ const handler = async (m, { conn, usedPrefix }) => {
             `┆  『 🌐 』 Inseriscilo su:\n` +
             `┆  _bereshit.it_ → *Accedi*\n` +
             `┆\n` +
-            `╰┈➤ 『 📦 』 \`zyklon system\``
+            `╰┈➤ 『 📦 』 \`annoyed system\``
 
         await conn.sendMessage(m.chat, {
             text: txt,
@@ -48,7 +48,7 @@ const handler = async (m, { conn, usedPrefix }) => {
         console.error('[.auth] Errore:', err)
 
         await conn.sendMessage(m.chat, {
-            text: `╭┈➤ 『 ❌ 』 *ERRORE*\n┆\n┆  Impossibile generare il codice.\n┆  Riprova tra qualche secondo.\n╰┈➤ \`zyklon system\``,
+            text: `╭┈➤ 『 ❌ 』 *ERRORE*\n┆\n┆  Impossibile generare il codice.\n┆  Riprova tra qualche secondo.\n╰┈➤ \`annoyed system\``,
             ...global.newsletter?.()
         }, { quoted: m })
     }

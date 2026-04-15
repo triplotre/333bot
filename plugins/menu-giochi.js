@@ -70,12 +70,12 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner }) => {
             ...global.newsletter().contextInfo,
             mentionedJid: [m.sender],
             isForwarded: true,    
-            stanzaId: 'zyklonGames',
+            stanzaId: 'annoyedGames',
             participant: '0@s.whatsapp.net',
             quotedMessage: {
                 contactMessage: {
-                    displayName: `⋆. zyklon 𝜗𝜚˚⋆`,
-                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;zyklon;;;\nFN:zyklon\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
+                    displayName: `⋆. annoyed 𝜗𝜚˚⋆`,
+                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;annoyed;;;\nFN:annoyed\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nEND:VCARD`
                 }
             }
           }

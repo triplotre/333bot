@@ -50,13 +50,13 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
                         interactiveMessage: {
                             header: { title: "◯  𐙚  *──  p l a y l i s t  ──*", hasVideoMessage: false },
                             body: { text: `In quale playlist vuoi salvare\n*${songTitle}*?` },
-                            footer: { text: "zyklon Music System" },
+                            footer: { text: "annoyed Music System" },
                             nativeFlowMessage: { buttons: buttons },
                             contextInfo: {
                                 ...global.newsletter().contextInfo,
                                 mentionedJid: [m.sender],
                                 isForwarded: true,
-                                stanzaId: 'zyklonSystem',
+                                stanzaId: 'annoyedSystem',
                                 participant: '0@s.whatsapp.net'
                             }
                         }

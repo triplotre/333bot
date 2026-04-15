@@ -1,5 +1,5 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return m.reply(`\`𐔌⚠️ ꒱\` _Inserisci il nuovo nome._\n\n_Esempio: ${usedPrefix + command} zyk-bot_`)
+    if (!text) return m.reply(`\`𐔌⚠️ ꒱\` _Inserisci il nuovo nome._\n\n_Esempio: ${usedPrefix + command} annoyed._`)
 
     try {
         await conn.updateProfileName(text)

@@ -1,5 +1,5 @@
 const handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return m.reply(`⚠️ Per impostare il tuo instagram, inserisci il tuo username di Instagram.\n\nEsempio:\n*${usedPrefix + command} zyklonbot*`)
+    if (!text) return m.reply(`⚠️ Per impostare il tuo instagram, inserisci il tuo username di Instagram.\n\nEsempio:\n*${usedPrefix + command} annoyedbot*`)
     
     let users = global.db.data.users
     if (!users[m.sender]) users[m.sender] = { messages: 0, warns: {} }

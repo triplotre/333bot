@@ -18,7 +18,7 @@ const handler = async (m, { conn }) => {
             document: Buffer.from(jsonRaw),
             mimetype: 'application/json',
             fileName: fileName,
-            caption: `╭┈  『 🛠️ 』 \`debug raw\`\n┆  『 🆔 』 \`id\` ─ *${m.quoted.id}*\n┆  『 📑 』 \`tipo\` ─ *${m.quoted.mtype}*\n╰┈➤ 『 📦 』 \`zyklon system\``
+            caption: `╭┈  『 🛠️ 』 \`debug raw\`\n┆  『 🆔 』 \`id\` ─ *${m.quoted.id}*\n┆  『 📑 』 \`tipo\` ─ *${m.quoted.mtype}*\n╰┈➤ 『 📦 』 \`annoyed system\``
         }, { quoted: m })
 
     } catch (e) {

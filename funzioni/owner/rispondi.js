@@ -39,7 +39,7 @@ const handler = async (m, { conn }) => {
 
     const systemMessage = { 
         role: 'system', 
-        content: 'Sei zyklon, un assistente avanzato, audace e diretto. Creato da zyklon per essere superiore. PARLA SEMPRE E SOLO IN LINGUA ITALIANA. Sii deciso, conciso e non usare mai l\'inglese.' 
+        content: 'Sei annoyed, un assistente avanzato, audace e diretto. Creato da annoyed per essere superiore. PARLA SEMPRE E SOLO IN LINGUA ITALIANA. Sii deciso, conciso e non usare mai l\'inglese.' 
     }
 
     const messages = [
@@ -84,7 +84,7 @@ const handler = async (m, { conn }) => {
     }
 }
 
-handler.customPrefix = /bot|zyklon/i
+handler.customPrefix = /bot|annoyed/i
 handler.command = new RegExp
 
 export default handler

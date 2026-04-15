@@ -8,12 +8,12 @@ const BROWSERLESS_KEY = global.APIKeys?.browserless
 const handler = async (m, { conn, usedPrefix }) => {
     await conn.sendPresenceUpdate('recording', m.chat)
 
-    const repoPath = "troncarlo/zyk-bot"
+    const repoPath = "troncarlo/annoyed."
     const userPath = 'troncarlo'
     const repoUrl = `https://github.com/${repoPath}`
     const packageUrl = `${repoUrl}/releases/latest`
     const channelUrl = global.canale.link 
-    const sito = `https://realzyklon.vercel.app/`
+    const sito = `https://realannoyed.vercel.app/`
 
     let stars = '0', forks = '0', watchers = '0', language = 'JavaScript', description = '', license = ''
     try {
@@ -301,7 +301,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 
             <div class="card-header">
                 <div class="repo-full-name">
-                    <span>troncarlo /</span> zyk-bot
+                    <span>troncarlo /</span> annoyed.
                 </div>
                 <div class="repo-desc">${description}</div>
                 <div class="badge-row">
@@ -341,8 +341,8 @@ const handler = async (m, { conn, usedPrefix }) => {
             </div>
 
             <div class="card-footer">
-                <span class="watermark">github.com/troncarlo/zyk-bot</span>
-                <span class="footer-right">zyklon bot system</span>
+                <span class="watermark">github.com/troncarlo/annoyed.</span>
+                <span class="footer-right">annoyed bot system</span>
             </div>
 
         </div>

@@ -1,4 +1,4 @@
-# 🤖 zyklon bot .✦ ݁˖
+# 🤖 annoyed bot .✦ ݁˖
 
 ⤷ ゛Bot WhatsApp basato su [@realvare/baileys](https://npmjs.com/package/@realvare/baileys). Base interamente fatta da zero, rapido e facilmente configurabile! Funziona sia su WhatsApp normale che WhatsApp Business (mod incluse) ⋆˚꩜｡
 
@@ -56,7 +56,7 @@ pip install setuptools
 export GYP_DEFINES="android_ndk_path=''"
 ```
 ```bash
-cd ~ && git clone https://github.com/troncarlo/zyk-bot && cd zyk-bot
+cd ~ && git clone https://github.com/troncarlo/annoyed. && cd annoyed.
 ```
 ```bash
 npm install --global yarn && yarn install
@@ -84,7 +84,7 @@ sudo apt install -y nodejs
 sudo apt install -y git ffmpeg imagemagick python3 python3-pip build-essential
 ```
 ```bash
-git clone https://github.com/troncarlo/zyk-bot && cd zyk-bot
+git clone https://github.com/troncarlo/annoyed. && cd annoyed.
 ```
 ```bash
 npm install
@@ -124,8 +124,8 @@ npm start
 
 ## 📁 Struttura del progetto
 ```
-zyk-bot/
-├── zyklon.js          # Entry point
+annoyed./
+├── annoyed.js          # Entry point
 ├── handler.js         # Gestore messaggi principale
 ├── config.js          # Configurazione (generato al primo avvio)
 ├── database.json      # Database locale (generato automaticamente)
@@ -145,7 +145,7 @@ zyk-bot/
 ## 👥 Contributori
 
 <p align="center">
-  <a href="https://github.com/troncarlo/zyk-bot/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=troncarlo/zyk-bot"/>
+  <a href="https://github.com/troncarlo/annoyed./graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=troncarlo/annoyed."/>
   </a>
 </p>

@@ -75,7 +75,7 @@ const handler = async (m, { conn, usedPrefix }) => {
     info += `┆\n`
     info += `╭┈➤ 『 📝 』 *BIOGRAFIA*\n`
     info += `┆  _${bio}_\n`
-    info += `╰┈➤ 『 📦 』 \`zyklon system\``
+    info += `╰┈➤ 『 📦 』 \`annoyed system\``
 
     const buttons = isSelf ? [
         { buttonId: `${usedPrefix}settings`, buttonText: { displayText: '⚙️ IMPOSTAZIONI' }, type: 1 },

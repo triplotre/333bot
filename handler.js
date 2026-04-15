@@ -103,7 +103,7 @@ async function handleActivity(m, conn) {
     let oreAttuali = Math.floor(db[sender].secondi / 3600)
     if (oreAttuali > db[sender].oreNotificate) {
         db[sender].oreNotificate = oreAttuali
-        const annuncio = `╭┈➤ 『 🏆 』 *TRAGUARDO ATTIVITÀ*\n┆  『 👤 』 @${sender.split('@')[0]}\n┆  『 🕒 』 Ha raggiunto *${oreAttuali}* ${oreAttuali === 1 ? 'ora' : 'ore'} di attività!\n╰┈➤ 『 📦 』 \`zyklon system\``
+        const annuncio = `╭┈➤ 『 🏆 』 *TRAGUARDO ATTIVITÀ*\n┆  『 👤 』 @${sender.split('@')[0]}\n┆  『 🕒 』 Ha raggiunto *${oreAttuali}* ${oreAttuali === 1 ? 'ora' : 'ore'} di attività!\n╰┈➤ 『 📦 』 \`annoyed system\``
         await conn.sendMessage(m.chat, { 
             text: annuncio, 
             mentions: [sender],

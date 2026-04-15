@@ -75,7 +75,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
             if (isAudio) {
                 await conn.sendMessage(m.chat, { audio: data, mimetype: 'audio/mpeg', fileName: `audio.mp3` }, { quoted: m })
             } else {
-                await conn.sendMessage(m.chat, { video: data, mimetype: 'video/mp4', caption: '> zyklon System' }, { quoted: m })
+                await conn.sendMessage(m.chat, { video: data, mimetype: 'video/mp4', caption: '> annoyed System' }, { quoted: m })
             }
             unlinkSync(finalPath)
         } catch (e) {
@@ -94,7 +94,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
     let thumb = v.thumbnail?.thumbnails?.[0]?.url || ''
     if (thumb.startsWith('//')) thumb = 'https:' + thumb
 
-    let caption = `╭┈➤ 『 🎵 』 *YOUTUBE PLAY*\n┆  『 📌 』 \`titolo\` ─ ${v.title}\n╰┈➤ 『 📦 』 \`zyklon system\``
+    let caption = `╭┈➤ 『 🎵 』 *YOUTUBE PLAY*\n┆  『 📌 』 \`titolo\` ─ ${v.title}\n╰┈➤ 『 📦 』 \`annoyed system\``
 
     const buttons = [
         { buttonId: `${usedPrefix}play audio ${videoUrl}`, buttonText: { displayText: '🎵 AUDIO' }, type: 1 },

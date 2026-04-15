@@ -71,7 +71,7 @@ let handler = async (m, { conn, args }) => {
         let emoji = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '👤'
         return `┆  ${emoji} *${i + 1}.* @${user.jid.split('@')[0]}\n┆  ╰─➤ *${user.messages}* _messaggi_`
     }).join('\n┆\n')
-    info += `\n╰┈➤ 『 📦 』 \`zyklon system\``
+    info += `\n╰┈➤ 『 📦 』 \`annoyed system\``
 
     await conn.sendMessage(m.chat, {
         text: info,

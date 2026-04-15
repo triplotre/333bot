@@ -53,7 +53,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
 
         return conn.sendMessage(m.chat, { 
             text: menu,
-            footer: 'Zyklon System • Personalizzazione',
+            footer: 'annoyed System • Personalizzazione',
             buttons,
             headerType: 1
         }, { quoted: m })
@@ -98,7 +98,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
                 saveDb(paths.insta, db)
                 return m.reply('`✅` Instagram rimosso.')
             }
-            return m.reply(`*Come impostare Instagram:*\nUsa \`${usedPrefix}${command} username\`\n\n_Esempio: ${usedPrefix}${command} zyklon_bot_`)
+            return m.reply(`*Come impostare Instagram:*\nUsa \`${usedPrefix}${command} username\`\n\n_Esempio: ${usedPrefix}${command} annoyed_bot_`)
         }
         const cleanInsta = input.replace('@', '')
         db[jid] = cleanInsta

@@ -77,7 +77,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
             image: { url: groupPp },
             body: `╭┈  『 🛡️ 』 \`impostazioni\`\n┆  『 👥 』 \`admin\`\n┆\n${adminBody.split('\n').map(x => `┆  ${x}`).join('\n')}\n╰┈➤ 『 📦 』 \`zykbot system\``,
             buttons: [
-                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Dashboard', url: 'https://zyklon.vercel.app/' }) }
+                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '『🌐』 Dashboard', url: 'https://annoyed.vercel.app/' }) }
             ]
         })
 

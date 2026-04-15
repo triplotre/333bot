@@ -121,7 +121,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     out += `┆  『 🔇 』 \`mutati\` ─  *${res.mutati}*\n`
     out += `┆  『 📜 』 \`playlists\` ─  *${res.playlists}*\n`
     out += `┆  『 👛 』 \`wallet\` ─  *${res.wallet}*\n`
-    out += `╰┈➤ 『 📦 』 \`zyklon system\``
+    out += `╰┈➤ 『 📦 』 \`annoyed system\``
 
     await conn.sendMessage(m.chat, { text: out }, { quoted: m })
 }
