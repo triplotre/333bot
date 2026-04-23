@@ -21,7 +21,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
             return m.reply(`『 ⚠️ 』 Esiste già una playlist chiamata *${newName}*. Scegli un altro nome.`)
         }
 
-        // Trasferimento dati e cancellazione vecchia chiave
         pl[m.sender][newName] = pl[m.sender][oldName]
         delete pl[m.sender][oldName]
 

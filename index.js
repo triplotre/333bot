@@ -41,12 +41,13 @@ const question = (t) => {
 
 const printHeader = () => {
     console.log(chalk.magenta(`
-███████╗██╗   ██╗██╗  ██╗██████╗  ██████╗ ████████╗
-╚══███╔╝╚██╗ ██╔╝██║ ██╔╝██╔══██╗██╔═══██╗╚══██╔══╝
-  ███╔╝  ╚████╔╝ █████╔╝ ██████╔╝██║   ██║   ██║   
- ███╔╝    ╚██╔╝  ██╔═██╗ ██╔══██╗██║   ██║   ██║   
-███████╗   ██║   ██║  ██╗██████╔╝╚██████╔╝   ██║   
-╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝`));
+██╗  ██╗██╗  ██╗██╗  ██╗    ██████╗  ██████╗ ████████╗    
+██║  ██║██║  ██║██║  ██║    ██╔══██╗██╔═══██╗╚══██╔══╝    
+███████║███████║███████║    ██████╔╝██║   ██║   ██║       
+╚════██║╚════██║╚════██║    ██╔══██╗██║   ██║   ██║       
+     ██║     ██║     ██║    ██████╔╝╚██████╔╝   ██║       
+     ╚═╝     ╚═╝     ╚═╝    ╚═════╝  ╚═════╝    ╚═╝ 
+      `));
 };
 
 let isRestarting = false;
@@ -70,7 +71,7 @@ async function startBot() {
     if (needsAuth) {
         printHeader();
         while (true) {
-            console.log(chalk.cyan(`\nBenvenuto/a in ZykBot! Opzioni disponibili:\n[ 1 ] QR Code\n[ 2 ] Pairing Code\n`));
+            console.log(chalk.cyan(`\nBenvenuto/a in 444bot! Opzioni disponibili:\n[ 1 ] QR Code\n[ 2 ] Pairing Code\n`));
             opzione = await question(chalk.yellow('Scegli per collegare: '));
             if (opzione === '1' || opzione === '2') break;
             console.log(chalk.red('\nSono concessi solo numero 1 e 2'));
@@ -90,7 +91,7 @@ async function startBot() {
             creds: state.creds,
             keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "silent" })),
         },
-        browser: Browsers.macOS('Firefox'),
+        browser: Browsers.macOS('Firefox', '1.0.0', '444bot'),
         generateHighQualityLinkPreview: true,
         syncFullHistory: false,
         shouldSyncHistoryMessage: () => false,

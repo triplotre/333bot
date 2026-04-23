@@ -2,14 +2,14 @@
   "name": "annoyed-bot",
   "version": "1.6.0",
   "description": "best wazap bot by @troncarlo",
-  "main": "annoyed.js",
+  "main": " index.js",
   "type": "module",
   "author": "troncarlo",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "node annoyed.js",
-    "qr": "node annoyed.js qr",
-    "code": "node annoyed.js code"
+    "start": "node  index.js",
+    "qr": "node  index.js qr",
+    "code": "node  index.js code"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",

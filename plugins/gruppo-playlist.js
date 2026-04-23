@@ -65,7 +65,6 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
 
     if (songs.length === 0) return m.reply('『 📁 』 Playlist vuota.')
 
-    // Presence spostata all'inizio del processo di rendering
     await conn.sendPresenceUpdate('recording', m.chat)
 
     const top10 = songs.slice(0, 10)

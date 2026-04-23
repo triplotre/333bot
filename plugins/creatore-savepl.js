@@ -12,7 +12,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         }, { quoted: q })
     }
     
-    // Estrazione profonda e infallibile del testo citato
     let code = ''
     if (m.quoted) {
         const qMsg = m.quoted.message || m.quoted

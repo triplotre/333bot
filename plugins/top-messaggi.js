@@ -12,7 +12,6 @@ let handler = async (m, { conn, args }) => {
         let groupMetadata = await conn.groupMetadata(m.chat)
         let participants = groupMetadata.participants
 
-        // Costruisce lidToJidMap identico a handler.js
         let lidToJidMap = {}
         participants.forEach(p => {
             let rLid = p.lid ? p.lid.split('@')[0] : (p.id?.includes('@lid') ? p.id.split('@')[0] : null)
@@ -20,7 +19,6 @@ let handler = async (m, { conn, args }) => {
             if (rLid && rJid) lidToJidMap[rLid] = rJid
         })
 
-        // Risolve ogni partecipante al JID reale @s.whatsapp.net
         let resolvedJids = participants.map(p => {
             if (p.jid && p.jid.includes('@s.whatsapp.net')) return p.jid.split(':')[0]
             if (p.id?.includes('@s.whatsapp.net')) return p.id.split(':')[0]

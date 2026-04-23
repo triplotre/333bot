@@ -27,14 +27,12 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
     if (!wallet[sender]) wallet[sender] = { money: 0, bank: 0 }
     if (!users[sender].lastrussa) users[sender].lastrussa = 0
 
-    // Gestione JOIN
     if (args[0] === 'join') {
         let game = global.russa[m.chat]
         if (!game) return m.reply('`𐔌⚠️꒱` Nessuna sfida attiva.')
         if (game.p2) return m.reply('`𐔌🚫꒱` Partita già piena.')
         if (game.p1 === sender) return m.reply('`𐔌🚫꒱` Non puoi sfidare te stesso.')
         
-        // Controllo Cooldown per chi entra
         let cd = 10 * 60 * 1000
         let remaining = cd - (new Date() - users[sender].lastrussa)
         if (remaining > 0) return m.reply(`\`𐔌⏳꒱\` Devi aspettare ancora *${formatTime(remaining)}* prima di sfidare qualcuno.`)
@@ -44,20 +42,18 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
         wallet[sender].money -= game.bet
         saveWallet(wallet)
         
-        users[sender].lastrussa = new Date() * 1 // Avvio cooldown per P2
+        users[sender].lastrussa = new Date() * 1 
         game.p2 = sender
         
         clearTimeout(game.timeout)
         return startBattle(m, conn, game)
     }
 
-    // Creazione Sfida
     let bet = parseInt(args[0])
     let bullets = parseInt(args[1]) || 1
 
     if (!bet || isNaN(bet) || bet < 150) return m.reply(`\`𐔌⚠️꒱\` Uso: ${usedPrefix + command} <quota> <proiettili>\nEsempio: \`${usedPrefix + command} 500 2\``)
     
-    // Controllo Cooldown per chi crea
     let cd = 10 * 60 * 1000
     let remaining = cd - (new Date() - users[sender].lastrussa)
     if (remaining > 0) return m.reply(`\`𐔌⏳꒱\` Hai già giocato di recente. Aspetta ancora *${formatTime(remaining)}*.`)
@@ -68,7 +64,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
     wallet[sender].money -= bet
     saveWallet(wallet)
     
-    users[sender].lastrussa = new Date() * 1 // Avvio cooldown per P1
+    users[sender].lastrussa = new Date() * 1 
 
     global.russa[m.chat] = {
         p1: sender,

@@ -5,10 +5,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const dbPath = './media/lastfm.json'
     const dirPath = './media'
 
-    // Crea la cartella media se non esiste
     if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true })
     
-    // Inizializza il file se non esiste
     if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, JSON.stringify({}))
 
     if (!text) return m.reply(`『 ⚠️ 』 Uso corretto:\n${usedPrefix + command} *nome_utente_lastfm*`)

@@ -5,7 +5,6 @@ const walletPath = './media/wallet.json'
 const livelliPath = './media/livelli.json'
 const BROWSERLESS_KEY = global.APIKeys?.browserless
 
-// Configurazione Premi (Tabella 7 Giorni)
 const rewards = [
     { day: 1, money: 500, xp: 50, icon: '💎' },
     { day: 2, money: 1000, xp: 100, icon: '💎' },
@@ -13,7 +12,7 @@ const rewards = [
     { day: 4, money: 4000, xp: 400, icon: '💰' },
     { day: 5, money: 6000, xp: 600, icon: '🏆' },
     { day: 6, money: 10000, xp: 1000, icon: '👑' },
-    { day: 7, money: 25000, xp: 2500, icon: '🎁' } // JACKPOT
+    { day: 7, money: 25000, xp: 2500, icon: '🎁' } 
 ]
 
 const getDb = (path) => {
@@ -37,11 +36,9 @@ const handler = async (m, { conn, usedPrefix }) => {
     let walletDb = getDb(walletPath)
     let livelliDb = getDb(livelliPath)
 
-    // Inizializzazione sicura
     if (!walletDb[jid]) walletDb[jid] = {}
     if (!livelliDb[jid]) livelliDb[jid] = {}
 
-    // Default values
     walletDb[jid].money = walletDb[jid].money || 0
     walletDb[jid].lastClaim = walletDb[jid].lastClaim || 0
     walletDb[jid].streak = walletDb[jid].streak || 0
@@ -86,7 +83,7 @@ const handler = async (m, { conn, usedPrefix }) => {
         let checkMark = ''
         
         if (i < rewardIndex) {
-            stateClass = 'claimed' // Passato
+            stateClass = 'claimed'
             checkMark = '<div class="check">✔</div>'
         } else if (i === rewardIndex) {
             stateClass = 'active' 

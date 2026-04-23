@@ -20,13 +20,11 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
         .filter(o => o && o[0])
         .map(o => o[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net')
 
-    // Sistema di rilevamento destinatario migliorato
     let target = m.mentionedJid && m.mentionedJid[0] 
         ? m.mentionedJid[0] 
         : (m.quoted ? m.quoted.sender : null)
 
-    // Se ancora non c'è, prova a cercarlo nel testo (es. @447781519250)
-    if (!target && args[0] && args[0].startsWith('@')) {
+   if (!target && args[0] && args[0].startsWith('@')) {
         target = args[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net'
     }
 

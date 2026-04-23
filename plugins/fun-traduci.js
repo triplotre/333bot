@@ -6,7 +6,6 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
 
     if (!text && m.quoted?.text) text = m.quoted.text
 
-    // Mappa per l'auto-correzione
     const correction = {
         'italiano': 'it', 'ita': 'it',
         'inglese': 'en', 'ing': 'en', 'eng': 'en',

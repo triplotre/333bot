@@ -3,7 +3,7 @@ import { jidNormalizedUser } from "@realvare/baileys"
 let handler = async (m, { conn, isOwner }) => {
     if (!isOwner) return
 
-    m.reply(`_🔍 Analisi dei gruppi in corso (Dominio .com)..._`)
+    m.reply(`_🔍 Analisi dei gruppi in corso ..._`)
 
     try {
         let groups = await conn.groupFetchAllParticipating()
@@ -28,11 +28,9 @@ let handler = async (m, { conn, isOwner }) => {
             if (isBotAdmin) {
                 let link = 'Link non disponibile'
                 try {
-                    // Generiamo il codice e usiamo il dominio .com
                     let code = await conn.groupInviteCode(jid)
                     link = `https://chat.whatsapp.com/${code}`
                 } catch (e) {
-                    // Se il bot è admin ma non può generare il link (es. restrizioni alte)
                 }
                 adminGroups.push(`📌 *${metadata.subject}*\n🔗 ${link}\n👥 Membri: ${participants.length}`)
             } else {

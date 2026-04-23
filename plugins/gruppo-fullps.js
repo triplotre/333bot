@@ -20,7 +20,6 @@ const handler = async (m, { conn, usedPrefix, text }) => {
     const totalMs = songs.reduce((a, s) => a + (s.duration || 0), 0)
     const botNumber = conn.user.id.split(':')[0]
     
-    // Testo principale del messaggio
     const mainText = `『 🎧 』 *PLAYLIST COMPLETA*\n\n📄 *Playlist:* ${name}\n📊 *Brani:* ${songs.length}\n🕒 *Durata:* ${formatTotalTime(totalMs)}\n\n Premi il bottone per ricevere la tua playlist "${name} in privato.`
 
     await conn.sendMessage(m.chat, {

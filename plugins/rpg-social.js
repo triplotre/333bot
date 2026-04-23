@@ -28,7 +28,6 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
     if (!social[sender]) social[sender] = { partner: null, children: [], parent: null }
 
     if (command === 'sposa' || command === 'adotta') {
-        // GESTIONE RISPOSTA (SI/NO/ACCETTA)
         if (args[0] === 'si' || args[0] === 'accetta' || args[0] === 'no') {
             let id = m.chat + sender
             let session = global.social_ask[id]
@@ -44,7 +43,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             }
 
             let requester = session.requester
-            let type = session.type // 'sposa' o 'adotta'
+            let type = session.type 
             clearTimeout(session.timeout)
             delete global.social_ask[id]
 
@@ -82,7 +81,6 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             return !0
         }
 
-        // CREAZIONE NUOVA PROPOSTA
         if (!target) return m.reply(`\`𐔌⚠️꒱\` Tagga qualcuno per questa azione.`)
         if (target === sender) return m.reply('`𐔌🚫꒱` Non puoi farlo con te stesso.')
         
@@ -98,7 +96,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
         
         global.social_ask[id] = {
             requester: sender,
-            type: command, // salva se è 'sposa' o 'adotta'
+            type: command, 
             timeout: setTimeout(() => {
                 if (global.social_ask[id]) {
                     conn.sendMessage(m.chat, { text: `\`𐔌⏳꒱\` La proposta per @${target.split('@')[0]} è scaduta.`, mentions: [target] })

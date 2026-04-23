@@ -4,7 +4,6 @@ import FormData from 'form-data'
 const handler = async (m, { conn, usedPrefix, command }) => {
     const { downloadContentFromMessage } = await import('@realvare/baileys')
     
-    // Verifica se c'è un messaggio quotato o se il messaggio corrente è un'immagine
     const isQuoted = m.quoted && m.quoted.message
     const currentMsg = m.message
     
@@ -40,7 +39,6 @@ const handler = async (m, { conn, usedPrefix, command }) => {
     try {
         const media = mediaMsg[msgType]
         
-        // Download diretto
         const stream = await downloadContentFromMessage(media, msgType.replace('Message', ''))
         let buffer = Buffer.from([])
         for await (const chunk of stream) {
@@ -53,14 +51,12 @@ const handler = async (m, { conn, usedPrefix, command }) => {
         
         console.log('[QR Debug] Image downloaded, size:', buffer.length)
         
-        // Usa l'API goqr.me per leggere QR code
         const form = new FormData()
         form.append('file', buffer, {
             filename: 'qr.jpg',
             contentType: mime || 'image/jpeg'
         })
         
-        // Prova prima con API goqr.me
         let qrData = null
         
         try {
@@ -82,10 +78,8 @@ const handler = async (m, { conn, usedPrefix, command }) => {
             console.error('[QR Error] goqr.me failed:', e.message)
         }
         
-        // Se goqr.me fallisce, prova con un'altra API
         if (!qrData) {
             try {
-                // Converti buffer in base64
                 const base64 = buffer.toString('base64')
                 
                 const response = await axios.post('https://zxing.org/w/decode', 
@@ -101,7 +95,6 @@ const handler = async (m, { conn, usedPrefix, command }) => {
                     }
                 )
                 
-                // Estrai il risultato dalla risposta HTML
                 const match = response.data.match(/<pre>(.*?)<\/pre>/s)
                 if (match && match[1]) {
                     qrData = match[1].trim()
@@ -117,7 +110,6 @@ const handler = async (m, { conn, usedPrefix, command }) => {
             }, { quoted: m })
         }
         
-        // Formatta il risultato
         let finalResult = qrData.trim()
         
         if (finalResult.match(/^(http|https|www)/i)) {

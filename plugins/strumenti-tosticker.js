@@ -10,7 +10,6 @@ const handler = async (m, { conn, usedPrefix, command }) => {
     let mtype = q.mtype || Object.keys(q.message || {})[0] || ''
     let msgNode = q.message || q.msg || {}
 
-    // Supporto per messaggi complessi (bottoni, interattivi, viewonce)
     while (['viewOnceMessage', 'viewOnceMessageV2', 'documentWithCaptionMessage', 'interactiveMessage', 'templateMessage', 'buttonsMessage'].includes(mtype)) {
         if (mtype === 'viewOnceMessage' || mtype === 'viewOnceMessageV2') {
             msgNode = msgNode[mtype]?.message || msgNode
@@ -66,7 +65,6 @@ const handler = async (m, { conn, usedPrefix, command }) => {
         if (!media || media.length === 0) throw new Error('Download fallito')
         fs.writeFileSync(tmpIn, media)
 
-        // Usiamo solo "scale=512:512" per forzare lo stretch senza padding/background
         const ffmpegArgs = isVideo 
             ? `-vcodec libwebp -filter:v "scale=512:512" -preset default -loop 0 -an -t 10`
             : `-vcodec libwebp -filter:v "scale=512:512" -preset default -loop 0 -an`

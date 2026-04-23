@@ -1,4 +1,4 @@
-# 🤖 annoyed bot .✦ ݁˖
+# 🤖 444 bot .✦ ݁˖
 
 ⤷ ゛Bot WhatsApp basato su [@realvare/baileys](https://npmjs.com/package/@realvare/baileys). Base interamente fatta da zero, rapido e facilmente configurabile! Funziona sia su WhatsApp normale che WhatsApp Business (mod incluse) ⋆˚꩜｡
 
@@ -39,7 +39,7 @@ Dopo l'installazione, modifica `config.js` e inserisci le tue chiavi in `global.
 - Android 8.1+ (escluse versioni Go)
 - 4 GB di RAM
 - 32 GB di memoria interna
-- [Termux dal F-Droid](https://f-droid.org/repo/com.termux_1022.apk) *(non usare quello del Play Store)*
+- [Termux dal F-Droid](https://f-droid.org/repo/com.termux_1022.apk)
 - Un secondo dispositivo per scansionare il QR code
 ```bash
 termux-setup-storage && termux-wake-lock
@@ -124,7 +124,7 @@ npm start
 ## 📁 Struttura del progetto
 ```
 annoyed./
-├── annoyed.js          # Entry point
+├── index.js          # Entry point
 ├── handler.js         # Gestore messaggi principale
 ├── config.js          # Configurazione (generato al primo avvio)
 ├── database.json      # Database locale (generato automaticamente)

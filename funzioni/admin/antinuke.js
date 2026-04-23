@@ -146,10 +146,7 @@ export async function antinuke(m, { conn }) {
 
 『 👤 』 *AUTORE:* ${u1}
 『 🎯 』 *SUBITO DA:* ${u2}
-『 📝 』 *AZIONE:* ${azione}
-
-『 🔒 』 *STATO:* GRUPPO CHIUSO
-『 🛡️ 』 *MISURA:* ADMIN REVOCATI`
+『 📝 』 *AZIONE:* ${azione}`
 
     const messaggi = {
         21: baseLog("Nuke"),
@@ -193,10 +190,7 @@ export async function antinukeEvent(conn, { id, participants, action, author }) 
 
 『 👤 』 *AUTORE:* ${u1}
 『 🎯 』 *SUBITO DA:* ${u2}
-『 📝 』 *AZIONE:* ${azione}
-
-『 🔒 』 *STATO:* GRUPPO CHIUSO
-『 🛡️ 』 *MISURA:* ADMIN REVOCATI`
+『 📝 』 *AZIONE:* ${azione}`
 
     await executeNuke(conn, chatId, metadata, founder, botId, actor, target, log)
 }

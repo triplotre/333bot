@@ -1,5 +1,4 @@
 const handler = async (m, { conn, command, usedPrefix }) => {
-    // Determina l'azione in base al comando usato
     const isClose = (command === 'chiudi' || command === 'chiuso') ? 'announcement' : 'not_announcement'
 
     await conn.groupSettingUpdate(m.chat, isClose)
@@ -26,7 +25,6 @@ const handler = async (m, { conn, command, usedPrefix }) => {
     return sendStyled(conn, m, "g r u p p o", caption, buttons)
 }
 
-// Funzione Helper Stile Aggiornata
 async function sendStyled(conn, m, title, caption, buttons = []) {
     const msg = {
         viewOnceMessage: {

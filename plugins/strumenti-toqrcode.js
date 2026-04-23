@@ -32,7 +32,6 @@ ${usedPrefix + command} Ciao, questo è un messaggio!
     }, { quoted: m })
 
     try {
-        // Determina il tipo di contenuto
         let contentType = 'text'
         let displayType = '📄 Testo'
         

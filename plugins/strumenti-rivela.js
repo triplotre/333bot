@@ -12,7 +12,6 @@ let handler = async (m, { conn }) => {
         let msgObj = JSON.parse(JSON.stringify(rawQuoted))
         let mtype = Object.keys(msgObj)[0]
 
-        // Se è View Once, "scompattiamo" per arrivare al contenuto reale
         if (['viewOnceMessage', 'viewOnceMessageV2', 'viewOnceMessageV2Extension'].includes(mtype)) {
             msgObj = msgObj[mtype].message
             mtype = Object.keys(msgObj)[0]
@@ -20,14 +19,12 @@ let handler = async (m, { conn }) => {
 
         const messageContent = msgObj[mtype]
         
-        // Identificazione del tipo di media per il download
         let mediaType
         if (mtype === 'videoMessage') mediaType = 'video'
         else if (mtype === 'imageMessage') mediaType = 'image'
         else if (mtype === 'audioMessage') mediaType = 'audio'
         else throw 'Formato non supportato (usa immagini, video o audio).'
 
-        // Download utilizzando la libreria baileys specificata
         let stream = await downloadContentFromMessage(messageContent, mediaType)
         let buffer = Buffer.from([])
         for await (const chunk of stream) {
@@ -38,7 +35,6 @@ let handler = async (m, { conn }) => {
             throw 'Impossibile scaricare il contenuto.'
         }
 
-        // Invio del media sbloccato senza caption
         if (mediaType === 'audio') {
             await conn.sendMessage(m.chat, {
                 audio: buffer,
