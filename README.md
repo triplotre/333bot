@@ -23,7 +23,7 @@ Dopo l'installazione, modifica `config.js` e inserisci le tue chiavi in `global.
 | Chiave | Servizio | Usato per |
 |--------|----------|-----------|
 | `openrouter` | [openrouter.ai](https://openrouter.ai) | AI Rispondi (modello trinity-mini) |
-| `browserless` | [browserless.io](https://browserless.io) | ########### |
+| `browserless` | [browserless.io](https://browserless.io) | N/A |
 | `removebg` | [remove.bg](https://remove.bg) | Rimozione sfondo immagini |
 | `lastfm` | [last.fm](https://www.last.fm/api) | Comando `.cur` / nowplaying |
 | `ocr` | [ocr.space](https://ocr.space/ocrapi) | Lettura QR code |
