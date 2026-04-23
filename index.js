@@ -15,6 +15,7 @@ import path from "path";
 import chalk from "chalk";
 import qrcode from "qrcode-terminal";
 import { pathToFileURL } from 'url';
+import { clear } from "console";
 import handler, { initDatabase, handleStub } from "./handler.js";
 import { eventsUpdate } from "./funzioni/admin/welcome-addio.js";
 import { antinukeEvent } from "./funzioni/admin/antinuke.js";
@@ -23,7 +24,6 @@ import { checkConfig } from './lib/configInit.js';
 import { setupWatcher } from './lib/watcher.js';
 import { registerAutoAccept } from './handler.js';
 import { startCleaner } from './lib/cleaner.js';
-import { clear } from "console";
 
 process.env.NODE_NO_WARNINGS = '1';
 
@@ -64,30 +64,21 @@ const printHeader = () => {
     console.log();
 };
 
+const newsletterJid = '120363408303414353@newsletter';
+
 let isRestarting = false;
 
 async function startBot() {
     if (isRestarting) return;
-    
+
     printHeader();
 
     checkConfig();
-
     await import(`./config.js?update=${Date.now()}`);
-
     initDatabase();
 
-    const newsletterJid = '120363418582531215@newsletter' 
-
-    try {
-        await sock.newsletterFollow(newsletterJid)
-        } catch (e) {    
-            }
-
     const authFolder = `./${global.authFile || 'sessione'}`;
-
     const { state, saveCreds } = await useMultiFileAuthState(authFolder);
-
     const { version } = await fetchLatestBaileysVersion();
 
     const needsAuth = !state.creds.registered && !fs.existsSync(path.join(authFolder, 'creds.json'));
@@ -187,6 +178,7 @@ async function startBot() {
                 chalk.green.bold('\n[ ONLINE ] ') + chalk.white('CONNESSIONE RIUSCITA!\n') +
                 chalk.green.bold('[ ONLINE ] ') + chalk.white('github.com/troncarlo - t.me/troncarlo ')
             );
+            try { await conn.newsletterFollow(newsletterJid); } catch (e) {}
             startCleaner(conn);
             return;
         }
@@ -195,7 +187,6 @@ async function startBot() {
             const reason =
                 lastDisconnect?.error?.output?.statusCode ||
                 lastDisconnect?.error?.output?.payload?.statusCode;
-
 
             if (reason === DisconnectReason.loggedOut) {
                 console.log(chalk.red('\n[ SESSION ] Disconnesso da WhatsApp, elimino i file...'));
