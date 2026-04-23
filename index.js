@@ -23,7 +23,6 @@ import { checkConfig } from './lib/configInit.js';
 import { setupWatcher } from './lib/watcher.js';
 import { registerAutoAccept } from './handler.js';
 import { startCleaner } from './lib/cleaner.js';
-import { startDashboard } from './api.js';
 
 process.env.NODE_NO_WARNINGS = '1';
 
@@ -39,15 +38,28 @@ const question = (t) => {
     });
 };
 
+const centerText = (text) => {
+    const cols = process.stdout.columns || 80;
+    return text.split('\n').map(line => {
+        const visible = line.replace(/\x1b\[[0-9;]*m/g, '');
+        const pad = Math.max(0, Math.floor((cols - visible.length) / 2));
+        return ' '.repeat(pad) + line;
+    }).join('\n');
+};
+
 const printHeader = () => {
-    console.log(chalk.magenta(`
+    const logo = chalk.magenta(`
 ██╗  ██╗██╗  ██╗██╗  ██╗    ██████╗  ██████╗ ████████╗    
 ██║  ██║██║  ██║██║  ██║    ██╔══██╗██╔═══██╗╚══██╔══╝    
 ███████║███████║███████║    ██████╔╝██║   ██║   ██║       
 ╚════██║╚════██║╚════██║    ██╔══██╗██║   ██║   ██║       
      ██║     ██║     ██║    ██████╔╝╚██████╔╝   ██║       
-     ╚═╝     ╚═╝     ╚═╝    ╚═════╝  ╚═════╝    ╚═╝ 
-      `));
+     ╚═╝     ╚═╝     ╚═╝    ╚═════╝  ╚═════╝    ╚═╝       
+`);
+    const made = chalk.gray('made by @troncarlo');
+    console.log(centerText(logo));
+    console.log(centerText(made));
+    console.log();
 };
 
 let isRestarting = false;
@@ -56,11 +68,15 @@ async function startBot() {
     if (isRestarting) return;
 
     checkConfig();
+
     await import(`./config.js?update=${Date.now()}`);
+
     initDatabase();
 
     const authFolder = `./${global.authFile || 'sessione'}`;
+
     const { state, saveCreds } = await useMultiFileAuthState(authFolder);
+
     const { version } = await fetchLatestBaileysVersion();
 
     const needsAuth = !state.creds.registered && !fs.existsSync(path.join(authFolder, 'creds.json'));
@@ -121,6 +137,7 @@ async function startBot() {
         }
     };
     await loadPlugins();
+
     setupWatcher(pluginsFolder);
 
     const scheduleRestart = (delay = 5000) => {
@@ -137,6 +154,18 @@ async function startBot() {
 
     conn.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect, qr } = update;
+        console.log(chalk.gray('[DEBUG] connection.update - connection: ' + connection + ', qr: ' + !!qr));
+
+        if (qr && needsAuth && opzione === '2' && phoneNumber && !pairingRequested) {
+            pairingRequested = true;
+            try {
+                const codeBot = await conn.requestPairingCode(phoneNumber, '4444BBOT');
+                console.log(chalk.white('\nCodice: ') + chalk.black.bgWhite.bold(` ${codeBot} `) + '\n');
+            } catch (err) {
+                console.error(chalk.red('[PAIRING ERROR]'), err);
+            }
+            return;
+        }
 
         if (qr && needsAuth && opzione === '1') {
             console.log(chalk.yellow('\n[ QR ] Scansiona il codice qui sotto:'));
@@ -153,21 +182,12 @@ async function startBot() {
             return;
         }
 
-        if (connection === 'connecting' && needsAuth && opzione === '2' && phoneNumber && !pairingRequested) {
-            pairingRequested = true;
-            try {
-                const codeBot = await conn.requestPairingCode(phoneNumber, 'G1US3B0T');
-                console.log(chalk.white('\nCodice: ') + chalk.black.bgWhite.bold(` ${codeBot} `) + '\n');
-            } catch (err) {
-                console.error(chalk.red('[PAIRING ERROR]'), err);
-            }
-            return;
-        }
-
         if (connection === 'close') {
             const reason =
                 lastDisconnect?.error?.output?.statusCode ||
                 lastDisconnect?.error?.output?.payload?.statusCode;
+
+            console.log(chalk.gray('[DEBUG] connection close - reason: ' + reason));
 
             if (reason === DisconnectReason.loggedOut) {
                 console.log(chalk.red('\n[ SESSION ] Disconnesso da WhatsApp, elimino i file...'));
@@ -185,7 +205,7 @@ async function startBot() {
     conn.ev.on('group-participants.update', async (anu) => {
         try { await eventsUpdate(conn, anu); } catch (e) {}
         try { await antinukeEvent(conn, anu); } catch (e) {}
-        try { await permessiUpdate(conn, anu); } catch (e) {} 
+        try { await permessiUpdate(conn, anu); } catch (e) {}
     });
 
     conn.ev.on('messages.upsert', async (chatUpdate) => {
@@ -207,4 +227,10 @@ async function startBot() {
 }
 
 startBot();
-startDashboard();
+
+try {
+    const { startDashboard } = await import('./api.js');
+    startDashboard();
+} catch (e) {
+    if (e.code !== 'ERR_MODULE_NOT_FOUND') console.error(chalk.red('[DASHBOARD ERROR]'), e);
+}
