@@ -1,6 +1,6 @@
 {
   "name": "annoyed-bot",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "best wazap bot by @troncarlo",
   "main": " index.js",
   "type": "module",
